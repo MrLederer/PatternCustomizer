@@ -57,7 +57,7 @@ namespace RegexCustomize
             //var commandService = await GetServiceAsync(typeof(IMenuCommandService)) as IMenuCommandService;
             var textManager = await GetServiceAsync(typeof(SVsTextManager)) as IVsTextManager;
 
-            new CustomizeCommand(textManager, _currentState/*, commandService*/);
+            new CustomizeCommand2(textManager, _currentState/*, commandService*/);
         }
 
         #endregion

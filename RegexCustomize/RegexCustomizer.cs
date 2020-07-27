@@ -41,10 +41,19 @@ namespace RegexCustomize
             _theBuffer = buffer;
             _formatNameToClassType = state.GetEnabledFormats()
                 .ToDictionary(formatName => formatName, formatName => registry.GetClassificationType(formatName));
+            _theBuffer.Changed += BufferChanged;
         }
 
         public IEnumerable<ITagSpan<IClassificationTag>> GetTags(NormalizedSnapshotSpanCollection spans)
         {
+            throw new NotImplementedException();
+        }
+
+        void BufferChanged(object sender, TextContentChangedEventArgs e)
+        {
+            // If this isn't the most up-to-date version of the buffer, then ignore it for now (we'll eventually get another change event).
+            if (e.After != _theBuffer.CurrentSnapshot)
+                return;
             throw new NotImplementedException();
         }
     }
