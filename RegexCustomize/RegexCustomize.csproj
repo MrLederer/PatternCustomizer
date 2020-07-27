@@ -46,16 +46,17 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
-    <Compile Include="CustomizeCommand2.cs" />
     <Compile Include="Formats\FormatDeclaration.cs" />
     <Compile Include="Formats\FormatDescriptions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegexCustomizePackage.cs" />
     <Compile Include="RegexCustomizer.cs" />
+    <Compile Include="State\Format.cs" />
     <Compile Include="State\IFormat.cs" />
     <Compile Include="State\IRule.cs" />
     <Compile Include="State\IState.cs" />
     <Compile Include="State\CustomState.cs" />
+    <Compile Include="State\RegexRule.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="source.extension.vsixmanifest">

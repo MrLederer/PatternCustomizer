@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace RegexCustomize.State
@@ -10,17 +11,24 @@ namespace RegexCustomize.State
     {
         public IFormat GetCustomFormat(string formatName)
         {
-            throw new NotImplementedException();
+            return new Format();
         }
 
         public IEnumerable<string> GetEnabledFormats()
         {
-            throw new NotImplementedException();
+            return new string[] { Constants.Format0, Constants.Format1, Constants.Format2 };
         }
-
-        public IEnumerable<IRule> GetFormatRules(string formatName)
+        public IEnumerable<IRule> GetRules(string formatName)
         {
-            throw new NotImplementedException();
+            switch (formatName)
+            {
+                case Constants.Format0:
+                    return new IRule[] { new RegexRule(new Regex("l", RegexOptions.Compiled)) };
+                case Constants.Format1:
+                    return new IRule[] { new RegexRule(new Regex("a", RegexOptions.Compiled)) };
+                default:
+                    return new IRule[] { new RegexRule(new Regex("b", RegexOptions.Compiled)) };
+            }
         }
     }
 }

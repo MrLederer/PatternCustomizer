@@ -10,9 +10,15 @@ namespace RegexCustomize.State
 {
     interface IState
     {
+        /// <summary>
+        /// Gets the custom setting for a format.
+        /// Used to configure the format
+        /// </summary>
+        /// <param name="formatName">Name of the format.</param>
+        /// <returns></returns>
         IFormat GetCustomFormat(FormatName formatName);
 
-        IEnumerable<IRule> GetFormatRules(FormatName formatName);
+        IEnumerable<IRule> GetRules(FormatName formatName);
 
         IEnumerable<FormatName> GetEnabledFormats();
     }
