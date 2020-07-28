@@ -32,6 +32,7 @@ namespace PatternCustomizer
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
     [Guid(PatternCustomizerPackage.PackageGuidString)]
     [ProvideOptionPage(typeof(OptionPageGrid), "My Category", "My Grid Page", 0, 0, true)]
+    [ProvideOptionPage(typeof(OptionPageCustom), "My Category", "My Custom Page", 0, 0, true)]
     public sealed class PatternCustomizerPackage : AsyncPackage
     {
         /// <summary>
@@ -77,6 +78,19 @@ namespace PatternCustomizer
 
         #endregion
     }
+
+    [Guid("00000000-0000-0000-0000-000000000000")]
+    public class OptionPageCustom : DialogPage
+    {
+        private string optionValue = "alpha";
+
+        public string OptionString
+        {
+            get { return optionValue; }
+            set { optionValue = value; }
+        }
+    }
+
     public class OptionPageGrid : DialogPage
     {
         private int optionInt = 256;
