@@ -41,13 +41,14 @@ namespace PatternCustomizer
         internal static IState currentState {
             get
             {
-                //return _currentState ?? (_currentState = new CustomState().Load());
-                //  to init some rules 
-                return _currentState ?? (_currentState = new CustomState(new List<(IRule, IFormat)>()
-            {
-                (new RegexRule(new Regex("^.*Logger.+$")), new CustomFormat(isItalic: true, color: Colors.Blue, opacity: 0.3)),
-                (new RegexRule(new Regex("Logger")), new CustomFormat(isBold: true, color: Colors.Red, opacity: 0.5))
-            })).Save().Load();
+                return _currentState ?? (_currentState = new CustomState().Load());
+                // TODO: Migrate to use Settings store. for more information https://docs.microsoft.com/en-us/visualstudio/extensibility/using-the-settings-store?view=vs-2019.
+                //  to init some rules
+                //    return _currentState ?? (_currentState = new CustomState(new List<(IRule, IFormat)>()
+                //{
+                //    (new RegexRule(new Regex("^.*Logger.+$")), new CustomFormat(isItalic: true, color: Colors.Blue, opacity: 0.3)),
+                //    (new RegexRule(new Regex("Logger")), new CustomFormat(isBold: true, color: Colors.Red, opacity: 0.5))
+                //})).Save().Load();
             }
         }
 
