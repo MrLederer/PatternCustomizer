@@ -21,12 +21,17 @@ namespace PatternCustomizer.Settings
 
         public void Initialize()
         {
-            textBox1.Text = patternToStyle.OptionString;
+            //textBox1.Text = patternToStyle.OptionString;
         }
 
         private void PatternToStyleTable_Leave(object sender, EventArgs e)
         {
-            patternToStyle.OptionString = textBox1.Text;
+            //patternToStyle.OptionString = textBox1.Text;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

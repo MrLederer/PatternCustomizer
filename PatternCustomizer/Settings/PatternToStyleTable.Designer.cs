@@ -28,31 +28,124 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.ReorderLabel = new System.Windows.Forms.Label();
+            this.PatternLabel = new System.Windows.Forms.Label();
+            this.StyleLabel = new System.Windows.Forms.Label();
+            this.AddTableEntryButton = new System.Windows.Forms.Button();
+            this.ManageStylesButton = new System.Windows.Forms.Button();
+            this.ManagePatternsButton = new System.Windows.Forms.Button();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // textBox1
+            // tableLayoutPanel1
             // 
-            this.textBox1.Location = new System.Drawing.Point(22, 25);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 0;
+            this.tableLayoutPanel1.AutoScroll = true;
+            this.tableLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.tableLayoutPanel1.BackColor = System.Drawing.SystemColors.Control;
+            this.tableLayoutPanel1.ColumnCount = 4;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 42.5F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 42.5F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 5F));
+            this.tableLayoutPanel1.Controls.Add(this.StyleLabel, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.ReorderLabel, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.PatternLabel, 1, 0);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(36, 34);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(754, 439);
+            this.tableLayoutPanel1.TabIndex = 0;
+            // 
+            // ReorderLabel
+            // 
+            this.ReorderLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.ReorderLabel.AutoSize = true;
+            this.ReorderLabel.Location = new System.Drawing.Point(3, 8);
+            this.ReorderLabel.Name = "ReorderLabel";
+            this.ReorderLabel.Size = new System.Drawing.Size(69, 13);
+            this.ReorderLabel.TabIndex = 0;
+            this.ReorderLabel.Text = "Reorder";
+            this.ReorderLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // PatternLabel
+            // 
+            this.PatternLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.PatternLabel.AutoSize = true;
+            this.PatternLabel.Location = new System.Drawing.Point(78, 8);
+            this.PatternLabel.Name = "PatternLabel";
+            this.PatternLabel.Size = new System.Drawing.Size(314, 13);
+            this.PatternLabel.TabIndex = 1;
+            this.PatternLabel.Text = "Pattern";
+            this.PatternLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // StyleLabel
+            // 
+            this.StyleLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.StyleLabel.AutoSize = true;
+            this.StyleLabel.Location = new System.Drawing.Point(398, 8);
+            this.StyleLabel.Name = "StyleLabel";
+            this.StyleLabel.Size = new System.Drawing.Size(314, 13);
+            this.StyleLabel.TabIndex = 3;
+            this.StyleLabel.Text = "Style";
+            this.StyleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // AddTableEntryButton
+            // 
+            this.AddTableEntryButton.Location = new System.Drawing.Point(36, 495);
+            this.AddTableEntryButton.Name = "AddTableEntryButton";
+            this.AddTableEntryButton.Size = new System.Drawing.Size(109, 34);
+            this.AddTableEntryButton.TabIndex = 1;
+            this.AddTableEntryButton.Text = "Add row";
+            this.AddTableEntryButton.UseVisualStyleBackColor = true;
+            // 
+            // ManageStylesButton
+            // 
+            this.ManageStylesButton.Location = new System.Drawing.Point(319, 495);
+            this.ManageStylesButton.Name = "ManageStylesButton";
+            this.ManageStylesButton.Size = new System.Drawing.Size(109, 34);
+            this.ManageStylesButton.TabIndex = 2;
+            this.ManageStylesButton.Text = "Manage styles";
+            this.ManageStylesButton.UseVisualStyleBackColor = true;
+            this.ManageStylesButton.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // ManagePatternsButton
+            // 
+            this.ManagePatternsButton.Location = new System.Drawing.Point(178, 495);
+            this.ManagePatternsButton.Name = "ManagePatternsButton";
+            this.ManagePatternsButton.Size = new System.Drawing.Size(109, 34);
+            this.ManagePatternsButton.TabIndex = 3;
+            this.ManagePatternsButton.Text = "Manage patterns";
+            this.ManagePatternsButton.UseVisualStyleBackColor = true;
             // 
             // PatternToStyleTable
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.textBox1);
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.Controls.Add(this.ManagePatternsButton);
+            this.Controls.Add(this.ManageStylesButton);
+            this.Controls.Add(this.AddTableEntryButton);
+            this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "PatternToStyleTable";
-            this.Size = new System.Drawing.Size(1377, 592);
+            this.Size = new System.Drawing.Size(836, 546);
             this.Leave += new System.EventHandler(this.PatternToStyleTable_Leave);
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Label ReorderLabel;
+        private System.Windows.Forms.Label PatternLabel;
+        private System.Windows.Forms.Label StyleLabel;
+        private System.Windows.Forms.Button AddTableEntryButton;
+        private System.Windows.Forms.Button ManageStylesButton;
+        private System.Windows.Forms.Button ManagePatternsButton;
     }
 }
