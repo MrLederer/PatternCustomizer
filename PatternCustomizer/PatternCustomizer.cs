@@ -30,7 +30,7 @@ namespace PatternCustomizer
     }
     class PatternCustomizer : ITagger<IClassificationTag>
     {
-        private readonly ITextBuffer _theBuffer;
+        private readonly ITextBuffer _buffer;
         private readonly IDictionary<IRule, IClassificationType> _ruleToFormatType;
 #pragma warning disable CS0067
         public event EventHandler<SnapshotSpanEventArgs> TagsChanged;
@@ -38,7 +38,7 @@ namespace PatternCustomizer
 
         internal PatternCustomizer(ITextBuffer buffer, IClassificationTypeRegistryService registry, IState state)
         {
-            _theBuffer = buffer;
+            _buffer = buffer;
             _ruleToFormatType = state.GetEnabledFormats()
                 .Select(formatName => (name: formatName, type: registry.GetClassificationType(formatName)))
                 .SelectMany(format => state

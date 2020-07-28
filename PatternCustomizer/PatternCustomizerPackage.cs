@@ -41,13 +41,13 @@ namespace PatternCustomizer
         internal static IState currentState {
             get
             {
+                //return _currentState ?? (_currentState = new CustomState().Load());
+                //  to init some rules 
                 return _currentState ?? (_currentState = new CustomState(new List<(IRule, IFormat)>()
             {
-                (new RegexRule(new Regex("dah")), new CustomFormat(isItalic: true, color: Colors.Blue)),
-                (new RegexRule(new Regex("c.r")), new CustomFormat(isBold: true, color: Colors.Red))
-            }))
-            .Save()
-            .Load();
+                (new RegexRule(new Regex("^.*Logger.+$")), new CustomFormat(isItalic: true, color: Colors.Blue, opacity: 0.3)),
+                (new RegexRule(new Regex("Logger")), new CustomFormat(isBold: true, color: Colors.Red, opacity: 0.5))
+            })).Save().Load();
             }
         }
 
