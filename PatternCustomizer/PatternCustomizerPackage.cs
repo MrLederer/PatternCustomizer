@@ -8,6 +8,7 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.TextManager.Interop;
 using PatternCustomizer.State;
 using Task = System.Threading.Tasks.Task;
+using System.ComponentModel;
 
 namespace PatternCustomizer
 {
@@ -30,6 +31,7 @@ namespace PatternCustomizer
     /// </remarks>
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
     [Guid(PatternCustomizerPackage.PackageGuidString)]
+    [ProvideOptionPage(typeof(OptionPageGrid), "My Category", "My Grid Page", 0, 0, true)]
     public sealed class PatternCustomizerPackage : AsyncPackage
     {
         /// <summary>
@@ -74,5 +76,18 @@ namespace PatternCustomizer
         }
 
         #endregion
+    }
+    public class OptionPageGrid : DialogPage
+    {
+        private int optionInt = 256;
+
+        [Category("My Category")]
+        [DisplayName("My Integer Option")]
+        [Description("My integer option")]
+        public int OptionInteger
+        {
+            get { return optionInt; }
+            set { optionInt = value; }
+        }
     }
 }
