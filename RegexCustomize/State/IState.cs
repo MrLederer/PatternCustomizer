@@ -21,6 +21,10 @@ namespace RegexCustomize.State
         IEnumerable<IRule> GetRules(FormatName formatName);
 
         IEnumerable<FormatName> GetEnabledFormats();
+
+        void Save();
+
+        void Load();
     }
 
 }

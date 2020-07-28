@@ -42,5 +42,15 @@ namespace RegexCustomize.State
         {
             return _state[formatName].Item2;
         }
+
+        public void Load()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Save()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

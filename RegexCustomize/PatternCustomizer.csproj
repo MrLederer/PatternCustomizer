@@ -50,8 +50,8 @@
     <Compile Include="Formats\FormatDescriptions.cs" />
     <Compile Include="IEnumerableExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RegexCustomizePackage.cs" />
-    <Compile Include="RegexCustomizer.cs" />
+    <Compile Include="PatternCustomizerPackage.cs" />
+    <Compile Include="PatternCustomizer.cs" />
     <Compile Include="State\CustomFormat.cs" />
     <Compile Include="State\IFormat.cs" />
     <Compile Include="State\IRule.cs" />

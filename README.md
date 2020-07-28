@@ -1,2 +1,2 @@
-# RegexCustomize
-Visual studio extension to customize identifiable code tokens
+# PatternCustomizer
+Visual studio extension to customize identifiable code patterns

@@ -25,10 +25,10 @@ namespace RegexCustomize
 
         public ITagger<T> CreateTagger<T>(ITextBuffer buffer) where T : ITag
         {
-            return (ITagger<T>)new RegexCustomizer(buffer, ClassificationRegistry, RegexCustomizePackage.currentState);
+            return (ITagger<T>)new PatternCustomizer(buffer, ClassificationRegistry, PatternCustomizerPackage.currentState);
         }
     }
-    class RegexCustomizer : ITagger<IClassificationTag>
+    class PatternCustomizer : ITagger<IClassificationTag>
     {
         private readonly ITextBuffer _theBuffer;
         private readonly IDictionary<IRule, IClassificationType> _ruleToFormatType;
@@ -36,7 +36,7 @@ namespace RegexCustomize
         public event EventHandler<SnapshotSpanEventArgs> TagsChanged;
 #pragma warning restore CS0067
 
-        internal RegexCustomizer(ITextBuffer buffer, IClassificationTypeRegistryService registry, IState state)
+        internal PatternCustomizer(ITextBuffer buffer, IClassificationTypeRegistryService registry, IState state)
         {
             _theBuffer = buffer;
             _ruleToFormatType = state.GetEnabledFormats()

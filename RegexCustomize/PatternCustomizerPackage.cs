@@ -29,8 +29,8 @@ namespace RegexCustomize
     /// </para>
     /// </remarks>
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
-    [Guid(RegexCustomizePackage.PackageGuidString)]
-    public sealed class RegexCustomizePackage : AsyncPackage
+    [Guid(PatternCustomizerPackage.PackageGuidString)]
+    public sealed class PatternCustomizerPackage : AsyncPackage
     {
         /// <summary>
         /// RegexCustomizePackage GUID string.

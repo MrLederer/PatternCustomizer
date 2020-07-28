@@ -4,7 +4,7 @@ using Microsoft.CodeAnalysis.Classification;
 using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Utilities;
 using RegexCustomize.State;
-using static RegexCustomize.RegexCustomizePackage;
+using static RegexCustomize.PatternCustomizerPackage;
 
 namespace RegexCustomize.Formats
 {
