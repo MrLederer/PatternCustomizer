@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Media;
 using FormatName = System.String;
 
-namespace RegexCustomize.State
+namespace PatternCustomizer.State
 {
     interface IState
     {

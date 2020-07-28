@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Utilities;
 
-namespace RegexCustomize.Formats
+namespace PatternCustomizer.Formats
 {
     internal static class FormatDeclaration
     {

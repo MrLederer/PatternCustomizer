@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Media;
 using Microsoft.VisualStudio.Text.Classification;
 
-namespace RegexCustomize.State
+namespace PatternCustomizer.State
 {
     class CustomFormat : IFormat
     {

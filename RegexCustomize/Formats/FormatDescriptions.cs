@@ -3,10 +3,10 @@ using System.Windows.Media;
 using Microsoft.CodeAnalysis.Classification;
 using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Utilities;
-using RegexCustomize.State;
-using static RegexCustomize.PatternCustomizerPackage;
+using PatternCustomizer.State;
+using static PatternCustomizer.PatternCustomizerPackage;
 
-namespace RegexCustomize.Formats
+namespace PatternCustomizer.Formats
 {
     public class CustomizableClassificationFormatDefinition : ClassificationFormatDefinition
     {

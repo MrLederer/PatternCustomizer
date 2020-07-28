@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using FormatName = System.String;
 
-namespace RegexCustomize.State
+namespace PatternCustomizer.State
 {
     internal class CustomState : IState
     {

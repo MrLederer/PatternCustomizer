@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace RegexCustomize.State
+namespace PatternCustomizer.State
 {
     public static class StateUtils
     {
@@ -20,11 +21,11 @@ namespace RegexCustomize.State
             return JsonConvert.SerializeObject(obj);
         }
 
-        public string GetDefaultFilePath()
+        public static string GetDefaultFilePath()
         {
             return Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-            nameof(PatternCustomizer), FILE_NAME
+            nameof(PatternCustomizer), "setting.json"
           );
         }
     }

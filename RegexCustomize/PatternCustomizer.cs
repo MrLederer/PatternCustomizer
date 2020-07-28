@@ -7,10 +7,10 @@ using Microsoft.Build.Framework.XamlTypes;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Tagging;
 using Microsoft.VisualStudio.Utilities;
-using RegexCustomize.State;
+using PatternCustomizer.State;
 using Microsoft.VisualStudio.Text.Classification;
 
-namespace RegexCustomize
+namespace PatternCustomizer
 {
     [Export(typeof(ITaggerProvider))]
     [ContentType("CSharp")]

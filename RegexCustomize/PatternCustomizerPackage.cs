@@ -6,10 +6,10 @@ using System.Threading;
 using System.Windows.Media;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.TextManager.Interop;
-using RegexCustomize.State;
+using PatternCustomizer.State;
 using Task = System.Threading.Tasks.Task;
 
-namespace RegexCustomize
+namespace PatternCustomizer
 {
     /// <summary>
     /// This is the class that implements the package exposed by this assembly.
