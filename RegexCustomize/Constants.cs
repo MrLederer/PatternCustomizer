@@ -19,5 +19,10 @@ namespace RegexCustomize
         //public const string Format7 = nameof(Format7);
         //public const string Format8 = nameof(Format8);
         //public const string Format9 = nameof(Format9);
+        public static string[] AllFormats = new string[] {
+            Format0,
+            Format1,
+            Format2
+        };
     }
 }

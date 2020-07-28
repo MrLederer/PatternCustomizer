@@ -16,6 +16,7 @@ namespace RegexCustomize
     [ContentType("CSharp")]
     [TagType(typeof(IClassificationTag))]
     internal class RegexCustomizerProvider : ITaggerProvider
+        //IViewTaggerProvider
     {
 #pragma warning disable CS0649
         [Import]
@@ -42,9 +43,8 @@ namespace RegexCustomize
                 .Select(formatName => (name: formatName, type: registry.GetClassificationType(formatName)))
                 .SelectMany(format => state
                     .GetRules(format.name)
-                    .Select(rule => (rule: rule, formatType: format.type)))
+                    .Select(rule => (rule, formatType: format.type)))
                 .ToDictionary(_ => _.rule, _ => _.formatType);
-            _theBuffer.Changed += BufferChanged;
         }
 
         public IEnumerable<ITagSpan<IClassificationTag>> GetTags(NormalizedSnapshotSpanCollection spans)
@@ -52,7 +52,6 @@ namespace RegexCustomize
             if (spans.Count == 0)
             {
                 yield break;
-                //return Enumerable.Empty<ITagSpan<IClassificationTag>>();
             }
             // TODO: implement cache
 
@@ -62,7 +61,7 @@ namespace RegexCustomize
                 {
                     continue;
                 }
-                foreach (ITextSnapshotLine line in span.Snapshot.Lines)
+                foreach (var line in span.Snapshot.Lines)
                 {
                     if (line.Length == 0)
                     {
@@ -83,14 +82,6 @@ namespace RegexCustomize
                 }
             }
             yield break;
-        }
-
-        void BufferChanged(object sender, TextContentChangedEventArgs e)
-        {
-            // If this isn't the most up-to-date version of the buffer, then ignore it for now (we'll eventually get another change event).
-            if (e.After != _theBuffer.CurrentSnapshot)
-                return;
-            throw new NotImplementedException();
         }
     }
 }

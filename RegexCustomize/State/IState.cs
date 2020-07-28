@@ -16,7 +16,7 @@ namespace RegexCustomize.State
         /// </summary>
         /// <param name="formatName">Name of the format.</param>
         /// <returns></returns>
-        IFormat GetCustomFormat(FormatName formatName);
+        IFormat GetCustomFormatOrDefault(FormatName formatName);
 
         IEnumerable<IRule> GetRules(FormatName formatName);
 

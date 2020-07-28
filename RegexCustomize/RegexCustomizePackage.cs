@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 using System.Threading;
+using System.Windows.Media;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.TextManager.Interop;
 using RegexCustomize.State;
@@ -36,7 +39,14 @@ namespace RegexCustomize
         private static IState _currentState;
 
         internal static IState currentState {
-            get => _currentState ?? (_currentState = new CustomState());
+            get
+            {
+                return _currentState ?? (_currentState = new CustomState(new List<(IRule, IFormat)>()
+            {
+                (new RegexRule(new Regex("la")), new CustomFormat(isItalic: true, color: Colors.Blue)),
+                (new RegexRule(new Regex("blah")), new CustomFormat(isBold: true, color: Colors.Red))
+            }));
+            }
         }
 
         #region Package Members
