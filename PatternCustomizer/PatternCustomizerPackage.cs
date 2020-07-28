@@ -9,6 +9,7 @@ using Microsoft.VisualStudio.TextManager.Interop;
 using PatternCustomizer.State;
 using Task = System.Threading.Tasks.Task;
 using System.ComponentModel;
+using PatternCustomizer.Settings;
 
 namespace PatternCustomizer
 {
@@ -31,8 +32,8 @@ namespace PatternCustomizer
     /// </remarks>
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
     [Guid(PatternCustomizerPackage.PackageGuidString)]
-    [ProvideOptionPage(typeof(OptionPageGrid), "My Category", "My Grid Page", 0, 0, true)]
-    [ProvideOptionPage(typeof(OptionPageCustom), "My Category", "My Custom Page", 0, 0, true)]
+    [ProvideOptionPage(typeof(PatternToStyleGrid), "Pattern Customizer", "Pattern to style grid", 0, 0, true)]
+    [ProvideOptionPage(typeof(PatternToStyleCustom), "Pattern Customizer", "Pattern to style table", 0, 0, true)]
     public sealed class PatternCustomizerPackage : AsyncPackage
     {
         /// <summary>
@@ -40,6 +41,16 @@ namespace PatternCustomizer
         /// </summary>
         public const string PackageGuidString = "0a35895d-957f-4362-9bf9-cae2307004e6";
         private static IState _currentState;
+
+        // TODO: remove the block below
+        public int OptionInteger
+        {
+            get
+            {
+                PatternToStyleGrid page = (PatternToStyleGrid)GetDialogPage(typeof(PatternToStyleGrid));
+                return page.OptionInteger;
+            }
+        }
 
         internal static IState currentState {
             get
@@ -77,31 +88,5 @@ namespace PatternCustomizer
         }
 
         #endregion
-    }
-
-    [Guid("00000000-0000-0000-0000-000000000000")]
-    public class OptionPageCustom : DialogPage
-    {
-        private string optionValue = "alpha";
-
-        public string OptionString
-        {
-            get { return optionValue; }
-            set { optionValue = value; }
-        }
-    }
-
-    public class OptionPageGrid : DialogPage
-    {
-        private int optionInt = 256;
-
-        [Category("My Category")]
-        [DisplayName("My Integer Option")]
-        [Description("My integer option")]
-        public int OptionInteger
-        {
-            get { return optionInt; }
-            set { optionInt = value; }
-        }
     }
 }
