@@ -12,13 +12,20 @@ namespace PatternCustomizer.State
     {
         public static T FromJson<T>(this string json)
         {
-            T deserializedObj = JsonConvert.DeserializeObject<T>(json);
+            T deserializedObj = JsonConvert.DeserializeObject<T>(json, new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.Objects
+            });
             return deserializedObj;
         }
 
         public static string ToJson<T>(this T obj)
         {
-            return JsonConvert.SerializeObject(obj);
+            return JsonConvert.SerializeObject(obj, Formatting.Indented, new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.Objects,
+                TypeNameAssemblyFormat = System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Simple
+            });
         }
 
         public static string GetDefaultFilePath()

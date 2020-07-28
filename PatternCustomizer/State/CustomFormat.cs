@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 
 namespace PatternCustomizer.State
 {
+    [JsonObject(MemberSerialization.Fields)]
     class CustomFormat : IFormat
     {
         private string _name;

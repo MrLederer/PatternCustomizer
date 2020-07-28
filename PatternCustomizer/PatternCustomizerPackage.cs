@@ -45,7 +45,9 @@ namespace PatternCustomizer
             {
                 (new RegexRule(new Regex("dah")), new CustomFormat(isItalic: true, color: Colors.Blue)),
                 (new RegexRule(new Regex("c.r")), new CustomFormat(isBold: true, color: Colors.Red))
-            }));
+            }))
+            .Save()
+            .Load();
             }
         }
 

@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
 
 namespace PatternCustomizer.State
 {
+    [JsonObject(MemberSerialization.Fields)]
     internal class RegexRule : IRule
     {
         private Regex _regex;

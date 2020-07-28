@@ -22,9 +22,9 @@ namespace PatternCustomizer.State
 
         IEnumerable<FormatName> GetEnabledFormats();
 
-        void Save();
+        IState Save();
 
-        void Load();
+        IState Load();
     }
 
 }

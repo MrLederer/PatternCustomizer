@@ -10,7 +10,8 @@ namespace PatternCustomizer.State
     internal class CustomState : IState
     {
         private string _settingFile;
-        [JsonProperty]
+
+        [JsonProperty(ItemTypeNameHandling = TypeNameHandling.Auto)]
         private IDictionary<FormatName, (IFormat, IEnumerable<IRule>)> _state;
 
         public CustomState(IEnumerable<(IRule, IFormat)> rulesAndFormats = null)
@@ -47,7 +48,7 @@ namespace PatternCustomizer.State
             return _state[formatName].Item2;
         }
 
-        public void Load()
+        public IState Load()
         {
             if (File.Exists(this._settingFile))
             {
@@ -55,12 +56,16 @@ namespace PatternCustomizer.State
                 var savedSetting = settingJson.FromJson<CustomState>();
                 _state = savedSetting._state;
             }
+            return this;
         }
 
-        public void Save()
+        public IState Save()
         {
             var serializedObj = this.ToJson();
+            var directory = Path.GetDirectoryName(this._settingFile);
+            Directory.CreateDirectory(directory);
             File.WriteAllText(this._settingFile, serializedObj);
+            return this;
         }
     }
 }
