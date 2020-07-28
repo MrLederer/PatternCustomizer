@@ -43,8 +43,8 @@ namespace PatternCustomizer
             {
                 return _currentState ?? (_currentState = new CustomState(new List<(IRule, IFormat)>()
             {
-                (new RegexRule(new Regex("la")), new CustomFormat(isItalic: true, color: Colors.Blue)),
-                (new RegexRule(new Regex("blah")), new CustomFormat(isBold: true, color: Colors.Red))
+                (new RegexRule(new Regex("dah")), new CustomFormat(isItalic: true, color: Colors.Blue)),
+                (new RegexRule(new Regex("c.r")), new CustomFormat(isBold: true, color: Colors.Red))
             }));
             }
         }

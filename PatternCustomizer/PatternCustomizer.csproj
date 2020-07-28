@@ -13,8 +13,8 @@
     <ProjectGuid>{2C61A62B-2607-49D3-A6B4-853FD583B3C4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RegexCustomize</RootNamespace>
-    <AssemblyName>RegexCustomize</AssemblyName>
+    <RootNamespace>PatternCustomizer</RootNamespace>
+    <AssemblyName>PatternCustomizer</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <GeneratePkgDefFile>true</GeneratePkgDefFile>
     <UseCodebase>true</UseCodebase>

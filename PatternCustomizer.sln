@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30308.118
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatternCustomizer", "RegexCustomize\PatternCustomizer.csproj", "{2C61A62B-2607-49D3-A6B4-853FD583B3C4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatternCustomizer", "PatternCustomizer\PatternCustomizer.csproj", "{2C61A62B-2607-49D3-A6B4-853FD583B3C4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

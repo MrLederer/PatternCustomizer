@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media;
-using Microsoft.VisualStudio.Text.Classification;
+﻿using System.Windows.Media;
+using Newtonsoft.Json;
 
 namespace PatternCustomizer.State
 {

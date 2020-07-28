@@ -2,28 +2,27 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+using Newtonsoft.Json;
 using FormatName = System.String;
 
 namespace PatternCustomizer.State
 {
     internal class CustomState : IState
     {
-        static string baseDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-
         private string _settingFile;
+        [JsonProperty]
         private IDictionary<FormatName, (IFormat, IEnumerable<IRule>)> _state;
 
-        public CustomState(IEnumerable<(IRule, IFormat)> rulesAndFormats)
+        public CustomState(IEnumerable<(IRule, IFormat)> rulesAndFormats = null)
         {
+            rulesAndFormats = rulesAndFormats ?? Enumerable.Empty<(IRule, IFormat)>();
+
             var stateEntries = rulesAndFormats.Count();
             if (Constants.AllFormats.Length < stateEntries)
             {
                 throw new NotSupportedException($"Can't configure more than {stateEntries} formats");
             }
-            //this._settingFile = 
+            this._settingFile = StateUtils.GetDefaultFilePath();
             this._state = rulesAndFormats
                 .Zip(Constants.AllFormats.Take(stateEntries), (ruleAndFormat, formatName) => (formatName, rule: ruleAndFormat.Item1, format: ruleAndFormat.Item2))
                 .ToDictionary(_ => _.formatName, _ => (_.format, rules: _.rule.ToEnumerable()));
@@ -50,13 +49,18 @@ namespace PatternCustomizer.State
 
         public void Load()
         {
-            
+            if (File.Exists(this._settingFile))
+            {
+                var settingJson = File.ReadAllText(this._settingFile);
+                var savedSetting = settingJson.FromJson<CustomState>();
+                _state = savedSetting._state;
+            }
         }
 
         public void Save()
         {
             var serializedObj = this.ToJson();
-
+            File.WriteAllText(this._settingFile, serializedObj);
         }
     }
 }
