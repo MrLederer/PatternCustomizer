@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -10,7 +11,11 @@ namespace RegexCustomize.State
 {
     internal class CustomState : IState
     {
+        static string baseDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+
+        private string _settingFile;
         private IDictionary<FormatName, (IFormat, IEnumerable<IRule>)> _state;
+
         public CustomState(IEnumerable<(IRule, IFormat)> rulesAndFormats)
         {
             var stateEntries = rulesAndFormats.Count();
@@ -18,7 +23,7 @@ namespace RegexCustomize.State
             {
                 throw new NotSupportedException($"Can't configure more than {stateEntries} formats");
             }
-
+            //this._settingFile = 
             this._state = rulesAndFormats
                 .Zip(Constants.AllFormats.Take(stateEntries), (ruleAndFormat, formatName) => (formatName, rule: ruleAndFormat.Item1, format: ruleAndFormat.Item2))
                 .ToDictionary(_ => _.formatName, _ => (_.format, rules: _.rule.ToEnumerable()));
@@ -45,12 +50,13 @@ namespace RegexCustomize.State
 
         public void Load()
         {
-            throw new NotImplementedException();
+            
         }
 
         public void Save()
         {
-            throw new NotImplementedException();
+            var serializedObj = this.ToJson();
+
         }
     }
 }

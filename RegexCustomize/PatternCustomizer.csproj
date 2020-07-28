@@ -58,6 +58,7 @@
     <Compile Include="State\IState.cs" />
     <Compile Include="State\CustomState.cs" />
     <Compile Include="State\RegexRule.cs" />
+    <Compile Include="State\StateUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="source.extension.vsixmanifest">
