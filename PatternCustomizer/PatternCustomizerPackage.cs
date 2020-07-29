@@ -44,16 +44,16 @@ namespace PatternCustomizer
         internal static IState currentState {
             get
             {
-                return _currentState ?? (_currentState = new CustomState().Load());
+                //return _currentState ?? (_currentState = new CustomState().Load());
                 // TODO: Migrate to use Settings store. for more information https://docs.microsoft.com/en-us/visualstudio/extensibility/using-the-settings-store?view=vs-2019.
                 //to init some rules
-                //return _currentState ?? (_currentState = new CustomState(new List<(IRule, IFormat)>()
-                //{
-                //    (new RegexRule("^.*Logger.+$", "Logger line"), new CustomFormat(color: Colors.Blue, opacity: 0.5)),
-                //    (new RegexRule("^.*Trace.+$", "Trace line"), new CustomFormat(color: Colors.Blue, opacity: 0.5)),
-                //    (new RegexRule("Logger", "Logger token"), new CustomFormat(color: Colors.Red, opacity: 0.7)),
-                //    (new RegexRule("Trace", "Trace Token"), new CustomFormat(color: Colors.Red, opacity: 0.7))
-                //})).Save().Load();
+                return _currentState ?? (_currentState = new CustomState(new List<(IRule, IFormat)>()
+                {
+                    (new RegexRule("^.*Logger.+$", "Logger line"), new CustomFormat(name: "Blue with low opacity", color: Colors.Blue, opacity: 0.5)),
+                    (new RegexRule("^.*Trace.+$", "Trace line"), new CustomFormat(name: "Blue with low opacity", color: Colors.Blue, opacity: 0.5)),
+                    (new RegexRule("Logger", "Logger token"), new CustomFormat(name: "Red with medium opacity", color: Colors.Red, opacity: 0.7)),
+                    (new RegexRule("Trace", "Trace Token"), new CustomFormat(name: "Red with medium opacity", color: Colors.Red, opacity: 0.7))
+                })).Save().Load();
             }
         }
 

@@ -16,9 +16,9 @@ namespace PatternCustomizer.State
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public CustomFormat(Color? color = null, double? opacity = null, bool? isItalic = null, bool? isBold = null, string name = null)
+        public CustomFormat(string name, Color ? color = null, double? opacity = null, bool? isItalic = null, bool? isBold = null)
         {
-            this.DisplayName = name;
+            this.DisplayName = name ?? "";
             this.Color = color;
             this.Opacity = opacity;
             this.IsItalic = isItalic;

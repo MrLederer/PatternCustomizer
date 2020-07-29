@@ -15,8 +15,8 @@ namespace PatternCustomizer.State
 
         [JsonProperty(ItemTypeNameHandling = TypeNameHandling.Auto)]
         public IList<(IRule, IFormat)> OrderedPatternToStyleMapping { get; set; }
-        public ISet<IRule> Rules { get; set; }
-        public ISet<IFormat> Formats { get; set; }
+        public IList<IRule> DistinctRules { get; set; }
+        public IList<IFormat> DistinctFormats { get; set; }
 
         private IDictionary<FormatName, (IFormat, IEnumerable<IRule>)> _state;
         private string _settingFile;
@@ -30,10 +30,12 @@ namespace PatternCustomizer.State
 
         private void RebuildStateFromRulesAndFormats(IEnumerable<(IRule, IFormat)> rulesAndFormats)
         {
-            Rules = rulesAndFormats.Select(_ => _.Item1)
-                .ToHashSet();
-            Formats = rulesAndFormats.Select(_ => _.Item2)
-                            .ToHashSet();
+            DistinctRules = rulesAndFormats.Select(_ => _.Item1)
+                .Distinct()
+                .ToList();
+            DistinctFormats = rulesAndFormats.Select(_ => _.Item2)
+                .Distinct()
+                .ToList();
 
             AssignedDeclaredFormatNames();
 
@@ -53,7 +55,7 @@ namespace PatternCustomizer.State
 
         public IEnumerable<FormatName> GetEnabledDeclaredFormatNames()
         {
-            return Constants.AllDeclaredFormatNames.Take(Formats.Count);
+            return Constants.AllDeclaredFormatNames.Take(DistinctFormats.Count);
         }
 
         public IEnumerable<IRule> GetRules(string formatName)
@@ -84,13 +86,13 @@ namespace PatternCustomizer.State
 
         private void AssignedDeclaredFormatNames()
         {
-            var formatEntries = Formats.Count();
+            var formatEntries = DistinctFormats.Count();
             if (Constants.AllDeclaredFormatNames.Length < formatEntries)
             {
                 throw new NotSupportedException($"Can't configure more than {formatEntries} formats");
             }
 
-            using (var formatsIterator = Formats.GetEnumerator())
+            using (var formatsIterator = DistinctFormats.GetEnumerator())
             {
                 using (var declaredNamesIterator = Constants.AllDeclaredFormatNames.Take(formatEntries).GetEnumerator())
                 {

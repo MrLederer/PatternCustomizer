@@ -13,9 +13,9 @@ namespace PatternCustomizer.State
     {
         IList<(IRule, IFormat)> OrderedPatternToStyleMapping { get; set; }
 
-        ISet<IRule> Rules { get; set; }
+        IList<IRule> DistinctRules { get; set; }
 
-        ISet<IFormat> Formats { get; set; }
+        IList<IFormat> DistinctFormats { get; set; }
 
         /// <summary>
         /// Gets the custom setting for a format.
