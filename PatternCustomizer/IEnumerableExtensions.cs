@@ -12,5 +12,10 @@ namespace PatternCustomizer
         {
             yield return item;
         }
+
+        public static IEnumerable<T> NullToEmpty<T>(this IEnumerable<T> collection)
+        {
+            return collection ?? Enumerable.Empty<T>();
+        }
     }
 }

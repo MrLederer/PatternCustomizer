@@ -12,7 +12,9 @@ namespace PatternCustomizer.State
 
     interface IFormat : INotifyPropertyChanged
     {
-        string Name { get; set; }
+        string DisplayName { get; set; }
+
+        string DeclaredFormatName { get; set; }
 
         Color? Color { get; set; }
 

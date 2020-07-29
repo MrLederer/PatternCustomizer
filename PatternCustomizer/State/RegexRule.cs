@@ -10,7 +10,7 @@ namespace PatternCustomizer.State
     internal class RegexRule : IRule
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        public string Name { get; set; }
+        public string DisplayName { get; set; }
         public string RegexPattern { get { return _regex.ToString(); } set { _regex = new Regex(value, RegexOptions.Compiled); } }
 
         private Regex _regex;
@@ -19,7 +19,7 @@ namespace PatternCustomizer.State
         public RegexRule(string regexPattern, string name)
         {
             this.RegexPattern = regexPattern;
-            this.Name = name;
+            this.DisplayName = name;
         }
 
 
@@ -31,19 +31,20 @@ namespace PatternCustomizer.State
         {
             var other = obj as IRule;
             return other != null &&
-                other.Name == this.Name &&
+                other.DisplayName == this.DisplayName &&
                 other.RegexPattern == this.RegexPattern;
         }
 
         public override int GetHashCode()
         {
-            return this.Name.GetHashCode() ^
-                this.RegexPattern.GetHashCode();
+            var rollingHash = this.DisplayName != null ? this.DisplayName.GetHashCode() : 0;
+            rollingHash ^= this.RegexPattern != null ? this.RegexPattern.GetHashCode() : 0;
+            return rollingHash;
         }
 
         public override string ToString()
         {
-            return Name;
+            return DisplayName;
         }
     }
 }

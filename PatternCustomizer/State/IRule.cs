@@ -6,7 +6,7 @@ namespace PatternCustomizer.State
 {
     interface IRule : INotifyPropertyChanged
     {
-        string Name { get; set; }
+        string DisplayName { get; set; }
 
         string RegexPattern { get; set; }
 

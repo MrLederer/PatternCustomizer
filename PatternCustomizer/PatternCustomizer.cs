@@ -39,7 +39,7 @@ namespace PatternCustomizer
         internal PatternCustomizer(ITextBuffer buffer, IClassificationTypeRegistryService registry, IState state)
         {
             _buffer = buffer;
-            _ruleToFormatType = state.GetEnabledFormats()
+            _ruleToFormatType = state.GetEnabledDeclaredFormatNames()
                 .Select(formatName => (name: formatName, type: registry.GetClassificationType(formatName)))
                 .SelectMany(format => state
                     .GetRules(format.name)

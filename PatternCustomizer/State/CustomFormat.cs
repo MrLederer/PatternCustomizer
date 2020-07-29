@@ -7,7 +7,8 @@ namespace PatternCustomizer.State
     [JsonObject(MemberSerialization.Fields)]
     class CustomFormat : IFormat
     {
-        public string Name { get; set; }
+        public string DisplayName { get; set; }
+        public string DeclaredFormatName { get; set; }
         public Color? Color { get; set; }
         public double? Opacity { get; set; }
         public bool? IsItalic { get; set; }
@@ -17,7 +18,7 @@ namespace PatternCustomizer.State
 
         public CustomFormat(Color? color = null, double? opacity = null, bool? isItalic = null, bool? isBold = null, string name = null)
         {
-            this.Name = name;
+            this.DisplayName = name;
             this.Color = color;
             this.Opacity = opacity;
             this.IsItalic = isItalic;
@@ -78,22 +79,22 @@ namespace PatternCustomizer.State
 
         public bool TryGetDisplayName(out string name)
         {
-            if (Name != null)
+            if (DisplayName != null)
             {
-                name = Name;
+                name = DisplayName;
             }
             else
             {
                 name = default;
             }
-            return Name != null;
+            return DisplayName != null;
         }
 
         public override bool Equals(object obj)
         {
             var other = obj as IFormat;
             return other != null &&
-                other.Name == this.Name &&
+                other.DisplayName == this.DisplayName &&
                 other.Color == this.Color &&
                 other.Opacity == this.Opacity &&
                 other.IsItalic == this.IsItalic &&
@@ -102,16 +103,17 @@ namespace PatternCustomizer.State
 
         public override int GetHashCode()
         {
-            return this.Name.GetHashCode() ^
-                this.Color.GetHashCode() ^
-                this.Opacity.GetHashCode() ^
-                this.IsItalic.GetHashCode() ^
-                this.IsBold.GetHashCode();
+            var rollingHash = this.DisplayName != null ? this.DisplayName.GetHashCode() : 0;
+            rollingHash ^= this.Color != null ? this.Color.GetHashCode() : 0;
+            rollingHash ^= this.Opacity != null ? this.Opacity.GetHashCode() : 0;
+            rollingHash ^= this.IsItalic != null ? this.IsItalic.GetHashCode() : 0;
+            rollingHash ^= this.IsBold != null ? this.IsBold.GetHashCode() : 0;
+            return rollingHash;
         }
 
         public override string ToString()
         {
-            return Name;
+            return DisplayName;
         }
     }
 }

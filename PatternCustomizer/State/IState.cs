@@ -11,6 +11,12 @@ namespace PatternCustomizer.State
 {
     interface IState : INotifyPropertyChanged
     {
+        IList<(IRule, IFormat)> OrderedPatternToStyleMapping { get; set; }
+
+        ISet<IRule> Rules { get; set; }
+
+        ISet<IFormat> Formats { get; set; }
+
         /// <summary>
         /// Gets the custom setting for a format.
         /// Used to configure the format
@@ -21,7 +27,7 @@ namespace PatternCustomizer.State
 
         IEnumerable<IRule> GetRules(FormatName formatName);
 
-        IEnumerable<FormatName> GetEnabledFormats();
+        IEnumerable<FormatName> GetEnabledDeclaredFormatNames();
 
         IState Save();
 
