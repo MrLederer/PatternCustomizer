@@ -14,16 +14,7 @@ namespace PatternCustomizer.State
         public event PropertyChangedEventHandler PropertyChanged;
 
         [JsonProperty(ItemTypeNameHandling = TypeNameHandling.Auto)]
-        public IList<(IRule, IFormat)> OrderedPatternToStyleMapping {
-            get
-            {
-                return OrderedPatternToStyleMapping;
-            }
-            set
-            {
-                OrderedPatternToStyleMapping = value;
-            }
-        }
+        public IList<(IRule, IFormat)> OrderedPatternToStyleMapping { get; set; }
         public ISet<IRule> Rules { get; set; }
         public ISet<IFormat> Formats { get; set; }
 
@@ -32,23 +23,19 @@ namespace PatternCustomizer.State
 
         public CustomState(IEnumerable<(IRule, IFormat)> rulesAndFormats = null)
         {
-            this.OrderedPatternToStyleMapping = rulesAndFormats.NullToEmpty().ToList();
-
             this._settingFile = StateUtils.GetDefaultFilePath();
-
+            this.OrderedPatternToStyleMapping = rulesAndFormats.NullToEmpty().ToList();
             RebuildStateFromRulesAndFormats(this.OrderedPatternToStyleMapping);
         }
 
         private void RebuildStateFromRulesAndFormats(IEnumerable<(IRule, IFormat)> rulesAndFormats)
         {
-            rulesAndFormats = rulesAndFormats.NullToEmpty();
-
-            Formats = rulesAndFormats.Select(_ => _.Item2)
-                            .ToHashSet();
             Rules = rulesAndFormats.Select(_ => _.Item1)
                 .ToHashSet();
-            assignedDeclaredFormatNames();
+            Formats = rulesAndFormats.Select(_ => _.Item2)
+                            .ToHashSet();
 
+            AssignedDeclaredFormatNames();
 
             _state = rulesAndFormats.GroupBy(_ => _.Item2, _ => _.Item1)
                 .ToDictionary(_ => _.Key.DeclaredFormatName, _ => (format: _.Key, rules: _.AsEnumerable()));
@@ -95,7 +82,7 @@ namespace PatternCustomizer.State
             return this;
         }
 
-        private void assignedDeclaredFormatNames()
+        private void AssignedDeclaredFormatNames()
         {
             var formatEntries = Formats.Count();
             if (Constants.AllDeclaredFormatNames.Length < formatEntries)
@@ -104,11 +91,13 @@ namespace PatternCustomizer.State
             }
 
             using (var formatsIterator = Formats.GetEnumerator())
-            using (var declaredNamesIterator = Constants.AllDeclaredFormatNames.Take(formatEntries).GetEnumerator())
             {
-                while (formatsIterator.MoveNext() && declaredNamesIterator.MoveNext())
+                using (var declaredNamesIterator = Constants.AllDeclaredFormatNames.Take(formatEntries).GetEnumerator())
                 {
-                    formatsIterator.Current.DeclaredFormatName = declaredNamesIterator.Current;
+                    while (formatsIterator.MoveNext() && declaredNamesIterator.MoveNext())
+                    {
+                        formatsIterator.Current.DeclaredFormatName = declaredNamesIterator.Current;
+                    }
                 }
             }
         }

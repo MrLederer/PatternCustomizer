@@ -6,21 +6,7 @@ using Microsoft.VisualStudio.Shell;
 
 namespace PatternCustomizer.Settings
 {
-    public class PatternToStyleGrid : DialogPage
-    {
-        private int optionInt = 256;
-
-        [Category("My Category")]
-        [DisplayName("My Integer Option")]
-        [Description("My integer option")]
-        public int OptionInteger
-        {
-            get { return optionInt; }
-            set { optionInt = value; }
-        }
-    }
-
-    [Guid("00000000-0000-0000-0000-000000000000")]
+    [Guid("23e56964-e8f9-4a4c-8285-09ed093971a2")]
     internal class PatternToStyleCustom : DialogPage
     {
         private string optionValue = "alpha";
