@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
@@ -9,8 +10,16 @@ namespace PatternCustomizer.State
 {
     internal class CustomState : IState
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
         private string _settingFile;
 
+        public IList<(IRule, IFormat)> orderedPatternToStyleMapping { get; set; }
+        public ISet<IRule> rules { get; set; }
+
+        public ISet<IFormat> formats { get; set; }
+
+        // TODO: remove this json setting, and start using setting store
         [JsonProperty(ItemTypeNameHandling = TypeNameHandling.Auto)]
         private IDictionary<FormatName, (IFormat, IEnumerable<IRule>)> _state;
 
@@ -18,16 +27,24 @@ namespace PatternCustomizer.State
         {
             rulesAndFormats = rulesAndFormats ?? Enumerable.Empty<(IRule, IFormat)>();
 
-            var stateEntries = rulesAndFormats.Count();
-            if (Constants.AllFormats.Length < stateEntries)
+            formats = rulesAndFormats.Select(_ => _.Item2)
+                .ToHashSet();
+            rules = rulesAndFormats.Select(_ => _.Item1)
+                .ToHashSet();
+
+
+            var formatEntries = formats.Count();
+            if (Constants.AllFormats.Length < formatEntries)
             {
-                throw new NotSupportedException($"Can't configure more than {stateEntries} formats");
+                throw new NotSupportedException($"Can't configure more than {formatEntries} formats");
             }
+
             this._settingFile = StateUtils.GetDefaultFilePath();
             this._state = rulesAndFormats
-                .Zip(Constants.AllFormats.Take(stateEntries), (ruleAndFormat, formatName) => (formatName, rule: ruleAndFormat.Item1, format: ruleAndFormat.Item2))
+                .Zip(Constants.AllFormats.Take(formatEntries), (ruleAndFormat, formatName) => (formatName, rule: ruleAndFormat.Item1, format: ruleAndFormat.Item2))
                 .ToDictionary(_ => _.formatName, _ => (_.format, rules: _.rule.ToEnumerable()));
         }
+
 
         public IFormat GetCustomFormatOrDefault(string formatName)
         {

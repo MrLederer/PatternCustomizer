@@ -1,4 +1,5 @@
-﻿using System.Windows.Media;
+﻿using System.ComponentModel;
+using System.Windows.Media;
 using Newtonsoft.Json;
 
 namespace PatternCustomizer.State
@@ -6,84 +7,111 @@ namespace PatternCustomizer.State
     [JsonObject(MemberSerialization.Fields)]
     class CustomFormat : IFormat
     {
-        private string _name;
-        private Color? _color;
-        private double? _opacity;
-        private bool? _isItalic;
-        private bool? _isBold;
+        public string Name { get; set; }
+        public Color? Color { get; set; }
+        public double? Opacity { get; set; }
+        public bool? IsItalic { get; set; }
+        public bool? IsBold { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public CustomFormat(Color? color = null, double? opacity = null, bool? isItalic = null, bool? isBold = null, string name = null)
         {
-            this._name = name;
-            this._color = color;
-            this._opacity = opacity;
-            this._isItalic = isItalic;
-            this._isBold = isBold;
+            this.Name = name;
+            this.Color = color;
+            this.Opacity = opacity;
+            this.IsItalic = isItalic;
+            this.IsBold = isBold;
         }
 
         public bool TryGetColor(out Color colorValue)
         {
-            if (_color.HasValue)
+            if (Color.HasValue)
             {
-                colorValue = _color.Value;
+                colorValue = Color.Value;
             }
             else
             {
                 colorValue = default;
             }
-            return _color.HasValue;
+            return Color.HasValue;
         }
 
         public bool TryGetOpacity(out double opacityValue)
         {
-            if (_opacity.HasValue)
+            if (Opacity.HasValue)
             {
-                opacityValue = _opacity.Value;
+                opacityValue = Opacity.Value;
             }
             else
             {
                 opacityValue = default;
             }
-            return _opacity.HasValue;
+            return Opacity.HasValue;
         }
 
         public bool TryGetIsItalic(out bool isItalicValue)
         {
-            if (_isItalic.HasValue)
+            if (IsItalic.HasValue)
             {
-                isItalicValue = _isItalic.Value;
+                isItalicValue = IsItalic.Value;
             }
             else
             {
                 isItalicValue = default;
             }
-            return _opacity.HasValue;
+            return Opacity.HasValue;
         }
 
         public bool TryGetIsBold(out bool isBoldValue)
         {
-            if (_isBold.HasValue)
+            if (IsBold.HasValue)
             {
-                isBoldValue = _isBold.Value;
+                isBoldValue = IsBold.Value;
             }
             else
             {
                 isBoldValue = default;
             }
-            return _isBold.HasValue;
+            return IsBold.HasValue;
         }
 
         public bool TryGetDisplayName(out string name)
         {
-            if (_name != null)
+            if (Name != null)
             {
-                name = _name;
+                name = Name;
             }
             else
             {
                 name = default;
             }
-            return _name != null;
+            return Name != null;
+        }
+
+        public override bool Equals(object obj)
+        {
+            var other = obj as IFormat;
+            return other != null &&
+                other.Name == this.Name &&
+                other.Color == this.Color &&
+                other.Opacity == this.Opacity &&
+                other.IsItalic == this.IsItalic &&
+                other.IsBold == this.IsBold;
+        }
+
+        public override int GetHashCode()
+        {
+            return this.Name.GetHashCode() ^
+                this.Color.GetHashCode() ^
+                this.Opacity.GetHashCode() ^
+                this.IsItalic.GetHashCode() ^
+                this.IsBold.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return Name;
         }
     }
 }

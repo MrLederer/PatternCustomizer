@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,7 +9,7 @@ using FormatName = System.String;
 
 namespace PatternCustomizer.State
 {
-    interface IState
+    interface IState : INotifyPropertyChanged
     {
         /// <summary>
         /// Gets the custom setting for a format.
