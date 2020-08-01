@@ -50,10 +50,10 @@ namespace PatternCustomizer
                 //to init some rules
                 //_currentState = _currentState ?? new CustomState(new List<(IRule, IFormat)>()
                 //{
-                //    (new RegexRule("^.*Logger.+$", "Logger line"), new CustomFormat(name: "Blue with low opacity", color: Colors.Blue, opacity: 0.5)),
-                //    (new RegexRule("^.*Trace.+$", "Trace line"), new CustomFormat(name: "Blue with low opacity", color: Colors.Blue, opacity: 0.5)),
-                //    (new RegexRule("Logger", "Logger token"), new CustomFormat(name: "Red with medium opacity", color: Colors.Red, opacity: 0.7)),
-                //    (new RegexRule("Trace", "Trace Token"), new CustomFormat(name: "Red with medium opacity", color: Colors.Red, opacity: 0.7))
+                //    (new RegexRule("^.*Logger.+$", "Logger line"), new CustomFormat(name: "Blue with low opacity", foregroundColor: Colors.Blue, opacity: 0.5)),
+                //    (new RegexRule("^.*Trace.+$", "Trace line"), new CustomFormat(name: "Blue with low opacity", foregroundColor: Colors.Blue, opacity: 0.5)),
+                //    (new RegexRule("Logger", "Logger token"), new CustomFormat(name: "Red with medium opacity", foregroundColor: Colors.Red, opacity: 0.7)),
+                //    (new RegexRule("Trace", "Trace Token"), new CustomFormat(name: "Red with medium opacity", foregroundColor: Colors.Red, opacity: 0.7))
                 //}).Save().Load();
                 //return _currentState;
             }

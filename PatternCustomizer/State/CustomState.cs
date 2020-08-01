@@ -27,14 +27,16 @@ namespace PatternCustomizer.State
 
         public CustomState(IEnumerable<(IRule, IFormat)> rulesAndFormats = null)
         {
+            var safeRulesAndFormats = rulesAndFormats.NullToEmpty();
             this._settingFile = StateUtils.GetDefaultFilePath();
-            this.Rules = rulesAndFormats.Select(_ => _.Item1)
+            this.Rules = safeRulesAndFormats.Select(_ => _.Item1)
                 .Distinct()
                 .ToBindingList();
-            this.Formats = rulesAndFormats.Select(_ => _.Item2)
+            this.Formats = safeRulesAndFormats.Select(_ => _.Item2)
                 .Distinct()
                 .ToBindingList();
-            this.OrderedPatternToStyleMapping = rulesAndFormats.NullToEmpty().Select(_ => new PatternToStyle(Rules.IndexOf(_.Item1), Formats.IndexOf(_.Item2))).ToBindingList();
+            this.OrderedPatternToStyleMapping = safeRulesAndFormats.Select(_ => new PatternToStyle(Rules.IndexOf(_.Item1), Formats.IndexOf(_.Item2)))
+                .ToBindingList();
             UpdateInternalState();
             OrderedPatternToStyleMapping.ListChanged += PatternToStyleListChanged;
         }
