@@ -28,10 +28,16 @@ namespace PatternCustomizer.Formats
                 DisplayName = name;
             }
 
-            Color color;
-            if (customFormat.TryGetColor(out color))
+            Color foregroundColor;
+            if (customFormat.TryGetForegroundColor(out foregroundColor))
             {
-                ForegroundColor = color;
+                ForegroundColor = foregroundColor;
+            }
+
+            Color backgroundColor;
+            if (customFormat.TryGetBackgroundColor(out backgroundColor))
+            {
+                BackgroundColor = backgroundColor;
             }
 
             double opacity;

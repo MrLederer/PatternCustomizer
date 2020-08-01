@@ -16,7 +16,10 @@ namespace PatternCustomizer.State
 
         string DeclaredFormatName { get; set; }
 
-        Color? Color { get; set; }
+        Color? ForegroundColor { get; set; }
+
+
+        Color? BackgroundColor { get; set; }
 
         double? Opacity { get; set; }
 
@@ -28,7 +31,9 @@ namespace PatternCustomizer.State
 
         bool TryGetOpacity(out double opacityValue);
 
-        bool TryGetColor(out Color colorValue);
+        bool TryGetForegroundColor(out Color colorValue);
+
+        bool TryGetBackgroundColor(out Color colorValue);
 
         bool TryGetIsItalic(out bool isItalicValue);
 

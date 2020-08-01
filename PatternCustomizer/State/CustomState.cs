@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using Microsoft.VisualStudio.Debugger.ComponentInterfaces;
+using Microsoft.VisualStudio.Debugger.Evaluation;
+using Microsoft.VisualStudio.Debugger.Interop;
 using Microsoft.VisualStudio.PlatformUI;
 using Newtonsoft.Json;
 using FormatName = System.String;
@@ -25,15 +28,15 @@ namespace PatternCustomizer.State
         public CustomState(IEnumerable<(IRule, IFormat)> rulesAndFormats = null)
         {
             this._settingFile = StateUtils.GetDefaultFilePath();
-            this.OrderedPatternToStyleMapping = rulesAndFormats.NullToEmpty().Select(_ => new PatternToStyle(_.Item1, _.Item2)).ToBindingList();
-            this.Rules = OrderedPatternToStyleMapping.Select(_ => _.rule)
+            this.Rules = rulesAndFormats.Select(_ => _.Item1)
                 .Distinct()
                 .ToBindingList();
-            this.Formats = OrderedPatternToStyleMapping.Select(_ => _.format)
+            this.Formats = rulesAndFormats.Select(_ => _.Item2)
                 .Distinct()
                 .ToBindingList();
-
-            RebuildInternalStateFromPublicState();
+            this.OrderedPatternToStyleMapping = rulesAndFormats.NullToEmpty().Select(_ => new PatternToStyle(Rules.IndexOf(_.Item1), Formats.IndexOf(_.Item2))).ToBindingList();
+            UpdateInternalState();
+            OrderedPatternToStyleMapping.ListChanged += PatternToStyleListChanged;
         }
 
         public IFormat GetCustomFormatOrDefault(FormatName formatName)
@@ -61,18 +64,19 @@ namespace PatternCustomizer.State
             if (File.Exists(this._settingFile))
             {
                 var settingJson = File.ReadAllText(this._settingFile);
-                var (mapping, rules, Formats) = settingJson.FromJson<(IEnumerable<(IRule, IFormat)>, IEnumerable<IRule>, IEnumerable<IFormat>)>();
-                this.OrderedPatternToStyleMapping = mapping.Select(_ => new PatternToStyle(_.Item1, _.Item2)).ToBindingList();
+                var (mapping, rules, formats) = settingJson.FromJson<(IEnumerable<(int, int)>, IEnumerable<IRule>, IEnumerable<IFormat>)>();
                 this.Rules = rules.ToBindingList();
-                this.Formats = Formats.ToBindingList();
-                RebuildInternalStateFromPublicState();
+                this.Formats = formats.ToBindingList();
+                this.OrderedPatternToStyleMapping = mapping.Select(_ => new PatternToStyle(_.Item1, _.Item2)).ToBindingList();
+                UpdateInternalState();
+                this.OrderedPatternToStyleMapping.ListChanged += PatternToStyleListChanged;
             }
             return this;
         }
 
         public IState Save()
         {
-            var mappingCopy = this.OrderedPatternToStyleMapping.Select(_ => (_.rule.Clone(), _.format.Clone()));
+            var mappingCopy = this.OrderedPatternToStyleMapping.Select(_ => (_.RuleIndex, _.FormatIndex));
             var formatsCopy = this.Formats.Select(_ => _.Clone());
             var rulesCopy = this.Rules.Select(_ => _.Clone());
             var serializedObj = (mappingCopy, rulesCopy, formatsCopy).ToJson();
@@ -82,9 +86,14 @@ namespace PatternCustomizer.State
             return this;
         }
 
-        private void RebuildInternalStateFromPublicState()
+        private void PatternToStyleListChanged(object sender, ListChangedEventArgs e)
         {
-            _usedAndDistinctFormats = this.OrderedPatternToStyleMapping.Select(_ => _.format).ToHashSet();
+            UpdateInternalState();
+        }
+
+        private void UpdateInternalState()
+        {
+            _usedAndDistinctFormats = this.OrderedPatternToStyleMapping.Select(_ => this.Formats.ElementAt(_.FormatIndex)).ToHashSet();
             var formatEntries = _usedAndDistinctFormats.Count();
             if (Constants.AllDeclaredFormatNames.Length < formatEntries)
             {
@@ -102,7 +111,7 @@ namespace PatternCustomizer.State
                 }
             }
 
-            _state = this.OrderedPatternToStyleMapping.GroupBy(_ => _.format, _ => _.rule)
+            _state = this.OrderedPatternToStyleMapping.GroupBy(_ => this.Formats.ElementAt(_.FormatIndex), _ => this.Rules.ElementAt(_.RuleIndex))
                 .ToDictionary(_ => _.Key.DeclaredFormatName, _ => (format: _.Key, rules: _.AsEnumerable()));
         }
     }

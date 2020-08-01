@@ -125,7 +125,6 @@ namespace PatternCustomizer.Settings
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "PatternToStyleTable";
             this.Size = new System.Drawing.Size(717, 526);
-            this.Leave += new System.EventHandler(this.PatternToStyleTable_Leave);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);

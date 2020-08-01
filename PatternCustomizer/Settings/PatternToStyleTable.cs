@@ -32,21 +32,27 @@ namespace PatternCustomizer.Settings
             var orderedPatternToStyleMapping = PatternCustomizerPackage.currentState.OrderedPatternToStyleMapping;
             for (int i = 0; i < orderedPatternToStyleMapping.Count; i++)
             {
-                AddNewRow(orderedPatternToStyleMapping[i], i);
+                AddNewRow(orderedPatternToStyleMapping[i]);
             }
-        }
-
-        private void PatternToStyleTable_Leave(object sender, EventArgs e)
-        {
-            //export everything to state
         }
 
         private void AddTableEntryButton_Click(object sender, EventArgs e)
         {
-            AddNewRow();
+            var currentState = PatternCustomizerPackage.currentState;
+            if (currentState.Formats.Any() && currentState.Rules.Any())
+            {
+                var newEntry = new PatternToStyle(0, 0);
+                currentState.OrderedPatternToStyleMapping.Add(newEntry);
+                AddNewRow(newEntry);
+            }
+            else
+            {
+                // add some msgbox to the user to add pattern and style
+                throw new Exception("Can not create a rule without patterns and styles");   
+            }
         }
 
-        private void AddNewRow(PatternToStyle selectedValue = default, int index = -1)
+        private void AddNewRow(PatternToStyle selectedValue)
         {
             //increase panel rows count by one
             tableLayoutPanel1.RowCount++;
@@ -61,12 +67,9 @@ namespace PatternCustomizer.Settings
             tableLayoutPanel1.Controls.Add(patternOptions, patternColumnIndex, tableLayoutPanel1.RowCount - 2);
             patternOptions.DataSource = PatternCustomizerPackage.currentState.Rules;
             patternOptions.BindingContext = new BindingContext();
-            if (selectedValue.rule != default)
-            {
-                //patternOptions.DataBindings.Add("SelectedValue", PatternCustomizerPackage.currentState.OrderedPatternToStyleMapping[index], "rule");
-                patternOptions.SelectedIndex = patternOptions.Items.IndexOf(selectedValue.rule);
-                //patternOptions.SelectedItem = selectedValue.rule;
-            }
+            patternOptions.CreateControl();
+            patternOptions.DataBindings.Add(new Binding("SelectedIndex", selectedValue, "RuleIndex", true, DataSourceUpdateMode.OnPropertyChanged));
+            patternOptions.SelectedIndex = selectedValue.RuleIndex;
 
             //add style select box
             var styleOptions = new ComboBox();
@@ -75,23 +78,19 @@ namespace PatternCustomizer.Settings
             tableLayoutPanel1.Controls.Add(styleOptions, styleColumnIndex, tableLayoutPanel1.RowCount - 2);
             styleOptions.DataSource = PatternCustomizerPackage.currentState.Formats;
             styleOptions.BindingContext = new BindingContext();
-            if (selectedValue.format != default)
-            {
-                styleOptions.CreateControl();
-                //styleOptions.DataBindings.Add("SelectedValue", PatternCustomizerPackage.currentState.OrderedPatternToStyleMapping[index], "format");
-                styleOptions.SelectedIndex = styleOptions.Items.IndexOf(selectedValue.format);
-                //styleOptions.SelectedValue = selectedValue.format;
-            }
+            styleOptions.CreateControl();
+            styleOptions.DataBindings.Add(new Binding ("SelectedIndex", selectedValue, "FormatIndex", true, DataSourceUpdateMode.OnPropertyChanged));
+            styleOptions.SelectedIndex = selectedValue.FormatIndex;
         }
 
         private void ManagePatternsButton_Click(object sender, EventArgs e)
         {
-            PatternCustomizerPackage.currentState.Rules.Add(new RegexRule("\\s+$", "recognize empty space at end of line"));
+            PatternCustomizerPackage.currentState.Rules.Add(new RegexRule(@"lala", "recognize lala"));
         }
 
         private void ManageStylesButton_Click(object sender, EventArgs e)
         {
-            PatternCustomizerPackage.currentState.Formats.Add(new CustomFormat("New chocolate Format", Colors.Chocolate));
+            PatternCustomizerPackage.currentState.Formats.Add(new CustomFormat("New chocolate Format", Colors.Chocolate, Colors.Chocolate));
         }
     }
 }
