@@ -25,7 +25,7 @@ namespace PatternCustomizer
 
         public ITagger<T> CreateTagger<T>(ITextBuffer buffer) where T : ITag
         {
-            return (ITagger<T>)new PatternCustomizer(buffer, ClassificationRegistry, PatternCustomizerPackage.currentState);
+            return (ITagger<T>)new PatternCustomizer(buffer, ClassificationRegistry);
         }
     }
     class PatternCustomizer : ITagger<IClassificationTag>
@@ -36,8 +36,9 @@ namespace PatternCustomizer
         public event EventHandler<SnapshotSpanEventArgs> TagsChanged;
 #pragma warning restore CS0067
 
-        internal PatternCustomizer(ITextBuffer buffer, IClassificationTypeRegistryService registry, IState state)
+        internal PatternCustomizer(ITextBuffer buffer, IClassificationTypeRegistryService registry)
         {
+            var state = PatternCustomizerPackage.currentState;
             _buffer = buffer;
             _ruleToFormatType = state.GetEnabledDeclaredFormatNames()
                 .Select(formatName => (name: formatName, type: registry.GetClassificationType(formatName)))

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Windows.Media;
 using Newtonsoft.Json;
 
@@ -114,6 +115,16 @@ namespace PatternCustomizer.State
         public override string ToString()
         {
             return DisplayName;
+        }
+
+        public IFormat Clone()
+        {
+            return new CustomFormat(this.DisplayName, this.Color, this.Opacity, this.IsItalic, this.IsBold);
+        }
+
+        object ICloneable.Clone()
+        {
+            return Clone();
         }
     }
 }

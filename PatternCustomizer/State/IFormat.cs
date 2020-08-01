@@ -10,7 +10,7 @@ using Microsoft.VisualStudio.Text.Classification;
 namespace PatternCustomizer.State
 {
 
-    interface IFormat : INotifyPropertyChanged
+    interface IFormat : INotifyPropertyChanged, ICloneable<IFormat>
     {
         string DisplayName { get; set; }
 

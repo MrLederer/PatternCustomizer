@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -45,6 +46,16 @@ namespace PatternCustomizer.State
         public override string ToString()
         {
             return DisplayName;
+        }
+
+        public IRule Clone()
+        {
+            return new RegexRule(this.RegexPattern, this.DisplayName);
+        }
+
+        object ICloneable.Clone()
+        {
+            return Clone();
         }
     }
 }

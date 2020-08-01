@@ -11,11 +11,11 @@ namespace PatternCustomizer.State
 {
     interface IState : INotifyPropertyChanged
     {
-        IList<(IRule, IFormat)> OrderedPatternToStyleMapping { get; set; }
+        BindingList<PatternToStyle> OrderedPatternToStyleMapping { get; set; }
 
-        IList<IRule> DistinctRules { get; set; }
+        BindingList<IRule> Rules { get; set; }
 
-        IList<IFormat> DistinctFormats { get; set; }
+        BindingList<IFormat> Formats { get; set; }
 
         /// <summary>
         /// Gets the custom setting for a format.

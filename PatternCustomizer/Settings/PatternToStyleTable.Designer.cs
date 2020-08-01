@@ -1,4 +1,6 @@
-﻿namespace PatternCustomizer.Settings
+﻿using System.Windows.Forms;
+
+namespace PatternCustomizer.Settings
 {
     partial class PatternToStyleTable
     {
@@ -55,7 +57,7 @@
             this.tableLayoutPanel1.Location = new System.Drawing.Point(24, 56);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.Size = new System.Drawing.Size(652, 447);
             this.tableLayoutPanel1.TabIndex = 0;
@@ -64,7 +66,7 @@
             // 
             this.StyleLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.StyleLabel.AutoSize = true;
-            this.StyleLabel.Location = new System.Drawing.Point(280, 9);
+            this.StyleLabel.Location = new System.Drawing.Point(280, 7);
             this.StyleLabel.Name = "StyleLabel";
             this.StyleLabel.Size = new System.Drawing.Size(269, 13);
             this.StyleLabel.TabIndex = 3;
@@ -75,7 +77,7 @@
             // 
             this.PatternLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.PatternLabel.AutoSize = true;
-            this.PatternLabel.Location = new System.Drawing.Point(4, 9);
+            this.PatternLabel.Location = new System.Drawing.Point(4, 7);
             this.PatternLabel.Name = "PatternLabel";
             this.PatternLabel.Size = new System.Drawing.Size(269, 13);
             this.PatternLabel.TabIndex = 1;
@@ -100,7 +102,7 @@
             this.ManageStylesButton.TabIndex = 2;
             this.ManageStylesButton.Text = "Manage styles";
             this.ManageStylesButton.UseVisualStyleBackColor = true;
-            this.ManageStylesButton.Click += new System.EventHandler(this.button1_Click);
+            this.ManageStylesButton.Click += new System.EventHandler(this.ManageStylesButton_Click);
             // 
             // ManagePatternsButton
             // 
@@ -110,6 +112,7 @@
             this.ManagePatternsButton.TabIndex = 3;
             this.ManagePatternsButton.Text = "Manage patterns";
             this.ManagePatternsButton.UseVisualStyleBackColor = true;
+            this.ManagePatternsButton.Click += new System.EventHandler(this.ManagePatternsButton_Click);
             // 
             // PatternToStyleTable
             // 
@@ -131,11 +134,11 @@
 
         #endregion
 
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.Label PatternLabel;
-        private System.Windows.Forms.Label StyleLabel;
-        private System.Windows.Forms.Button AddTableEntryButton;
-        private System.Windows.Forms.Button ManageStylesButton;
-        private System.Windows.Forms.Button ManagePatternsButton;
+        private TableLayoutPanel tableLayoutPanel1;
+        private Label PatternLabel;
+        private Label StyleLabel;
+        private Button AddTableEntryButton;
+        private Button ManageStylesButton;
+        private Button ManagePatternsButton;
     }
 }

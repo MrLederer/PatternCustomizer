@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using Microsoft.VisualStudio.PlatformUI;
 using Newtonsoft.Json;
 using FormatName = System.String;
 
@@ -13,34 +14,26 @@ namespace PatternCustomizer.State
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        [JsonProperty(ItemTypeNameHandling = TypeNameHandling.Auto)]
-        public IList<(IRule, IFormat)> OrderedPatternToStyleMapping { get; set; }
-        public IList<IRule> DistinctRules { get; set; }
-        public IList<IFormat> DistinctFormats { get; set; }
+        public BindingList<PatternToStyle> OrderedPatternToStyleMapping { get; set; }
+        public BindingList<IRule> Rules { get; set; }
+        public BindingList<IFormat> Formats { get; set; }
 
         private IDictionary<FormatName, (IFormat, IEnumerable<IRule>)> _state;
+        private HashSet<IFormat> _usedAndDistinctFormats;
         private string _settingFile;
 
         public CustomState(IEnumerable<(IRule, IFormat)> rulesAndFormats = null)
         {
             this._settingFile = StateUtils.GetDefaultFilePath();
-            this.OrderedPatternToStyleMapping = rulesAndFormats.NullToEmpty().ToList();
-            RebuildStateFromRulesAndFormats(this.OrderedPatternToStyleMapping);
-        }
-
-        private void RebuildStateFromRulesAndFormats(IEnumerable<(IRule, IFormat)> rulesAndFormats)
-        {
-            DistinctRules = rulesAndFormats.Select(_ => _.Item1)
+            this.OrderedPatternToStyleMapping = rulesAndFormats.NullToEmpty().Select(_ => new PatternToStyle(_.Item1, _.Item2)).ToBindingList();
+            this.Rules = OrderedPatternToStyleMapping.Select(_ => _.rule)
                 .Distinct()
-                .ToList();
-            DistinctFormats = rulesAndFormats.Select(_ => _.Item2)
+                .ToBindingList();
+            this.Formats = OrderedPatternToStyleMapping.Select(_ => _.format)
                 .Distinct()
-                .ToList();
+                .ToBindingList();
 
-            AssignedDeclaredFormatNames();
-
-            _state = rulesAndFormats.GroupBy(_ => _.Item2, _ => _.Item1)
-                .ToDictionary(_ => _.Key.DeclaredFormatName, _ => (format: _.Key, rules: _.AsEnumerable()));
+            RebuildInternalStateFromPublicState();
         }
 
         public IFormat GetCustomFormatOrDefault(FormatName formatName)
@@ -55,7 +48,7 @@ namespace PatternCustomizer.State
 
         public IEnumerable<FormatName> GetEnabledDeclaredFormatNames()
         {
-            return Constants.AllDeclaredFormatNames.Take(DistinctFormats.Count);
+            return Constants.AllDeclaredFormatNames.Take(_usedAndDistinctFormats.Count);
         }
 
         public IEnumerable<IRule> GetRules(string formatName)
@@ -68,31 +61,37 @@ namespace PatternCustomizer.State
             if (File.Exists(this._settingFile))
             {
                 var settingJson = File.ReadAllText(this._settingFile);
-                var savedSetting = settingJson.FromJson<CustomState>();
-                this.OrderedPatternToStyleMapping  = savedSetting.OrderedPatternToStyleMapping;
-                RebuildStateFromRulesAndFormats(this.OrderedPatternToStyleMapping);
+                var (mapping, rules, Formats) = settingJson.FromJson<(IEnumerable<(IRule, IFormat)>, IEnumerable<IRule>, IEnumerable<IFormat>)>();
+                this.OrderedPatternToStyleMapping = mapping.Select(_ => new PatternToStyle(_.Item1, _.Item2)).ToBindingList();
+                this.Rules = rules.ToBindingList();
+                this.Formats = Formats.ToBindingList();
+                RebuildInternalStateFromPublicState();
             }
             return this;
         }
 
         public IState Save()
         {
-            var serializedObj = this.ToJson();
+            var mappingCopy = this.OrderedPatternToStyleMapping.Select(_ => (_.rule.Clone(), _.format.Clone()));
+            var formatsCopy = this.Formats.Select(_ => _.Clone());
+            var rulesCopy = this.Rules.Select(_ => _.Clone());
+            var serializedObj = (mappingCopy, rulesCopy, formatsCopy).ToJson();
             var directory = Path.GetDirectoryName(this._settingFile);
             Directory.CreateDirectory(directory);
             File.WriteAllText(this._settingFile, serializedObj);
             return this;
         }
 
-        private void AssignedDeclaredFormatNames()
+        private void RebuildInternalStateFromPublicState()
         {
-            var formatEntries = DistinctFormats.Count();
+            _usedAndDistinctFormats = this.OrderedPatternToStyleMapping.Select(_ => _.format).ToHashSet();
+            var formatEntries = _usedAndDistinctFormats.Count();
             if (Constants.AllDeclaredFormatNames.Length < formatEntries)
             {
                 throw new NotSupportedException($"Can't configure more than {formatEntries} formats");
             }
 
-            using (var formatsIterator = DistinctFormats.GetEnumerator())
+            using (var formatsIterator = _usedAndDistinctFormats.GetEnumerator())
             {
                 using (var declaredNamesIterator = Constants.AllDeclaredFormatNames.Take(formatEntries).GetEnumerator())
                 {
@@ -102,6 +101,9 @@ namespace PatternCustomizer.State
                     }
                 }
             }
+
+            _state = this.OrderedPatternToStyleMapping.GroupBy(_ => _.format, _ => _.rule)
+                .ToDictionary(_ => _.Key.DeclaredFormatName, _ => (format: _.Key, rules: _.AsEnumerable()));
         }
     }
 }
