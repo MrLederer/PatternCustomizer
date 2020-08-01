@@ -95,4 +95,88 @@ namespace PatternCustomizer.Formats
         {
         }
     }
+
+    [Export(typeof(EditorFormatDefinition))]
+    [ClassificationType(ClassificationTypeNames = Constants.Format3)]
+    [Name(Constants.Format3)]
+    [UserVisible(true)]
+    [Order(After = ClassificationTypeNames.Identifier)]
+    internal sealed class Format3 : CustomizableClassificationFormatDefinition
+    {
+        public Format3() : base(currentState.GetCustomFormatOrDefault(Constants.Format3))
+        {
+        }
+    }
+
+    [Export(typeof(EditorFormatDefinition))]
+    [ClassificationType(ClassificationTypeNames = Constants.Format4)]
+    [Name(Constants.Format4)]
+    [UserVisible(true)]
+    [Order(After = ClassificationTypeNames.Identifier)]
+    internal sealed class Format4 : CustomizableClassificationFormatDefinition
+    {
+        public Format4() : base(currentState.GetCustomFormatOrDefault(Constants.Format4))
+        {
+        }
+    }
+
+    [Export(typeof(EditorFormatDefinition))]
+    [ClassificationType(ClassificationTypeNames = Constants.Format5)]
+    [Name(Constants.Format5)]
+    [UserVisible(true)]
+    [Order(After = ClassificationTypeNames.Identifier)]
+    internal sealed class Format5 : CustomizableClassificationFormatDefinition
+    {
+        public Format5() : base(currentState.GetCustomFormatOrDefault(Constants.Format5))
+        {
+        }
+    }
+
+    [Export(typeof(EditorFormatDefinition))]
+    [ClassificationType(ClassificationTypeNames = Constants.Format6)]
+    [Name(Constants.Format6)]
+    [UserVisible(true)]
+    [Order(After = ClassificationTypeNames.Identifier)]
+    internal sealed class Format6 : CustomizableClassificationFormatDefinition
+    {
+        public Format6() : base(currentState.GetCustomFormatOrDefault(Constants.Format6))
+        {
+        }
+    }
+
+    [Export(typeof(EditorFormatDefinition))]
+    [ClassificationType(ClassificationTypeNames = Constants.Format7)]
+    [Name(Constants.Format7)]
+    [UserVisible(true)]
+    [Order(After = ClassificationTypeNames.Identifier)]
+    internal sealed class Format7 : CustomizableClassificationFormatDefinition
+    {
+        public Format7() : base(currentState.GetCustomFormatOrDefault(Constants.Format7))
+        {
+        }
+    }
+
+    [Export(typeof(EditorFormatDefinition))]
+    [ClassificationType(ClassificationTypeNames = Constants.Format8)]
+    [Name(Constants.Format8)]
+    [UserVisible(true)]
+    [Order(After = ClassificationTypeNames.Identifier)]
+    internal sealed class Format8 : CustomizableClassificationFormatDefinition
+    {
+        public Format8() : base(currentState.GetCustomFormatOrDefault(Constants.Format8))
+        {
+        }
+    }
+
+    [Export(typeof(EditorFormatDefinition))]
+    [ClassificationType(ClassificationTypeNames = Constants.Format9)]
+    [Name(Constants.Format9)]
+    [UserVisible(true)]
+    [Order(After = ClassificationTypeNames.Identifier)]
+    internal sealed class Format9 : CustomizableClassificationFormatDefinition
+    {
+        public Format9() : base(currentState.GetCustomFormatOrDefault(Constants.Format9))
+        {
+        }
+    }
 }

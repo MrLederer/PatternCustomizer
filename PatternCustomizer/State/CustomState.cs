@@ -22,7 +22,6 @@ namespace PatternCustomizer.State
         public BindingList<IFormat> Formats { get; set; }
 
         private IDictionary<FormatName, (IFormat, IEnumerable<IRule>)> _state;
-        private HashSet<IFormat> _usedAndDistinctFormats;
         private string _settingFile;
 
         public CustomState(IEnumerable<(IRule, IFormat)> rulesAndFormats = null)
@@ -53,12 +52,20 @@ namespace PatternCustomizer.State
 
         public IEnumerable<FormatName> GetEnabledDeclaredFormatNames()
         {
-            return Constants.AllDeclaredFormatNames.Take(_usedAndDistinctFormats.Count);
+            return Constants.AllDeclaredFormatNames.Take(Formats.Count);
         }
 
         public IEnumerable<IRule> GetRules(string formatName)
         {
-            return _state[formatName].Item2;
+            (IFormat, IEnumerable<IRule>) result;
+            if (_state.TryGetValue(formatName, out result))
+            {
+                return result.Item2;
+            }
+            else
+            {
+                return Enumerable.Empty<IRule>();
+            }
         }
 
         public IState Load()
@@ -95,14 +102,13 @@ namespace PatternCustomizer.State
 
         private void UpdateInternalState()
         {
-            _usedAndDistinctFormats = this.OrderedPatternToStyleMapping.Select(_ => this.Formats.ElementAt(_.FormatIndex)).ToHashSet();
-            var formatEntries = _usedAndDistinctFormats.Count();
+            var formatEntries = Formats.Count();
             if (Constants.AllDeclaredFormatNames.Length < formatEntries)
             {
                 throw new NotSupportedException($"Can't configure more than {formatEntries} formats");
             }
 
-            using (var formatsIterator = _usedAndDistinctFormats.GetEnumerator())
+            using (var formatsIterator = Formats.GetEnumerator())
             {
                 using (var declaredNamesIterator = Constants.AllDeclaredFormatNames.Take(formatEntries).GetEnumerator())
                 {
