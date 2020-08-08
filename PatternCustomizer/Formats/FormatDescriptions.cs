@@ -22,38 +22,32 @@ namespace PatternCustomizer.Formats
                 return;
             }
 
-            string name;
-            if (customFormat.TryGetDisplayName(out name))
+            if (customFormat.TryGetDisplayName(out var name))
             {
                 DisplayName = name;
             }
 
-            Color foregroundColor;
-            if (customFormat.TryGetForegroundColor(out foregroundColor))
+            if (customFormat.TryGetForegroundColor(out var foregroundColor))
             {
                 ForegroundColor = foregroundColor;
             }
 
-            Color backgroundColor;
-            if (customFormat.TryGetBackgroundColor(out backgroundColor))
+            if (customFormat.TryGetBackgroundColor(out var backgroundColor))
             {
                 BackgroundColor = backgroundColor;
             }
 
-            double opacity;
-            if (customFormat.TryGetOpacity(out opacity))
+            if (customFormat.TryGetOpacity(out var opacity))
             {
                 ForegroundOpacity = opacity;
             }
 
-            bool isItalic;
-            if (customFormat.TryGetIsItalic(out isItalic))
+            if (customFormat.TryGetIsItalic(out var isItalic))
             {
                 IsItalic = isItalic;
             }
 
-            bool isBold;
-            if (customFormat.TryGetIsItalic(out isBold))
+            if (customFormat.TryGetIsItalic(out var isBold))
             {
                 IsBold = isBold;
             }

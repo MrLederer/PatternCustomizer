@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows.Media;
+using Microsoft.VisualStudio.Shell.Interop;
+using Microsoft.VisualStudio.TextManager.Interop;
 using Newtonsoft.Json;
 
 namespace PatternCustomizer.State
@@ -14,11 +16,12 @@ namespace PatternCustomizer.State
         public Color? BackgroundColor { get; set; }
         public double? Opacity { get; set; }
         public bool? IsItalic { get; set; }
+        public bool? IsStrikethrough { get; set; }
         public bool? IsBold { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public CustomFormat(string name, Color? foregroundColor = null, Color? backgroundColor = null, double? opacity = null, bool? isItalic = null, bool? isBold = null)
+        public CustomFormat(string name, Color? foregroundColor = null, Color? backgroundColor = null, double? opacity = null, bool? isItalic = null, bool? isBold = null, bool? isStrikethrough = null)
         {
             this.DisplayName = name ?? "";
             this.ForegroundColor = foregroundColor;
@@ -33,12 +36,13 @@ namespace PatternCustomizer.State
             if (ForegroundColor.HasValue)
             {
                 colorValue = ForegroundColor.Value;
+                return true;
             }
             else
             {
                 colorValue = default;
+                return false;
             }
-            return ForegroundColor.HasValue;
         }
 
 
@@ -47,12 +51,13 @@ namespace PatternCustomizer.State
             if (BackgroundColor.HasValue)
             {
                 colorValue = BackgroundColor.Value;
+                return true;
             }
             else
             {
                 colorValue = default;
+                return false;
             }
-            return BackgroundColor.HasValue;
         }
 
         public bool TryGetOpacity(out double opacityValue)
@@ -60,12 +65,13 @@ namespace PatternCustomizer.State
             if (Opacity.HasValue)
             {
                 opacityValue = Opacity.Value;
+                return true;
             }
             else
             {
                 opacityValue = default;
+                return false;
             }
-            return Opacity.HasValue;
         }
 
         public bool TryGetIsItalic(out bool isItalicValue)
@@ -73,12 +79,27 @@ namespace PatternCustomizer.State
             if (IsItalic.HasValue)
             {
                 isItalicValue = IsItalic.Value;
+                return true;
             }
             else
             {
                 isItalicValue = default;
+                return false;
             }
-            return Opacity.HasValue;
+        }
+
+        public bool TryGetIsStrikethrough(out bool isStrikethrough)
+        {
+            if (IsStrikethrough.HasValue)
+            {
+                isStrikethrough = IsStrikethrough.Value;
+                return true;
+            }
+            else
+            {
+                isStrikethrough = default;
+                return false;
+            }
         }
 
         public bool TryGetIsBold(out bool isBoldValue)
@@ -86,12 +107,13 @@ namespace PatternCustomizer.State
             if (IsBold.HasValue)
             {
                 isBoldValue = IsBold.Value;
+                return true;
             }
             else
             {
                 isBoldValue = default;
+                return false;
             }
-            return IsBold.HasValue;
         }
 
         public bool TryGetDisplayName(out string name)
@@ -99,12 +121,13 @@ namespace PatternCustomizer.State
             if (DisplayName != null)
             {
                 name = DisplayName;
+                return true;
             }
             else
             {
                 name = default;
+                return false;
             }
-            return DisplayName != null;
         }
 
         public override bool Equals(object obj)
@@ -137,12 +160,49 @@ namespace PatternCustomizer.State
 
         public IFormat Clone()
         {
-            return new CustomFormat(this.DisplayName, this.ForegroundColor, this.BackgroundColor, this.Opacity, this.IsItalic, this.IsBold);
+            return new CustomFormat(this.DisplayName, this.ForegroundColor, this.BackgroundColor, this.Opacity, this.IsItalic, this.IsBold, this.IsStrikethrough);
         }
 
         object ICloneable.Clone()
         {
             return Clone();
+        }
+
+        public ColorableItemInfo ConvertToItemInfo()
+        {
+            var result = new ColorableItemInfo();
+            if (this.TryGetForegroundColor(out var foregroundColor))
+            {
+                result.crForeground  = (uint)foregroundColor.ToRGB();
+                result.bForegroundValid = 1;
+            }
+            else
+            {
+                result.bForegroundValid = 0;
+            }
+            
+            if (this.TryGetBackgroundColor(out var backgroundColor))
+            {
+                result.crBackground = (uint)backgroundColor.ToRGB();
+                result.bBackgroundValid = 1;
+            }
+            else
+            {
+                result.bBackgroundValid = 0;
+            }
+
+            if (this.TryGetIsStrikethrough(out var isStrikethrough))
+            {
+                result.dwFontFlags |= (uint)FONTFLAGS.FF_STRIKETHROUGH;
+                result.bFontFlagsValid = 1;
+            }
+            if (this.TryGetIsBold(out var isBold))
+            {
+                result.dwFontFlags |= (uint)FONTFLAGS.FF_BOLD;
+                result.bFontFlagsValid = 1;
+            }
+
+            return result;
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.Serialization.Formatters;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 using Newtonsoft.Json;
 
 namespace PatternCustomizer.State
@@ -32,6 +33,27 @@ namespace PatternCustomizer.State
             Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
             nameof(PatternCustomizer), "setting.json"
           );
+        }
+
+        /// <summary>
+        /// Converts to rgb.
+        /// </summary>
+        /// <remakrs>For more information visit <see href="https://docs.microsoft.com/en-us/dotnet/api/microsoft.visualstudio.shell.interop.__vscolortype?view=visualstudiosdk-2019"></remakrs>
+        /// <param name="color">The color.</param>
+        /// <returns></returns>
+        public static int ToRGB(this Color color)
+        {
+            return color.R | (color.G << 8) | (color.B << 16);
+        }
+
+        public static IDictionary<TKey, TValue> ToDictionaryWithKeyOverwritting<TSource, TKey, TValue>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TValue> valueSelector)
+        {
+            var result = new Dictionary<TKey, TValue>();
+            foreach (var item in source)
+            {
+                result[keySelector(item)] = valueSelector(item);
+            }
+            return result;
         }
     }
 }

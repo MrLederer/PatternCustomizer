@@ -72,7 +72,7 @@
     <Compile Include="Settings\PatternToStyleTable.Designer.cs">
       <DependentUpon>PatternToStyleTable.cs</DependentUpon>
     </Compile>
-    <Compile Include="State\Cloneable.cs" />
+    <Compile Include="State\ICloneable.cs" />
     <Compile Include="State\CustomFormat.cs" />
     <Compile Include="State\IFormat.cs" />
     <Compile Include="State\IRule.cs" />
@@ -81,6 +81,7 @@
     <Compile Include="State\PatternToStyle.cs" />
     <Compile Include="State\RegexRule.cs" />
     <Compile Include="State\StateUtils.cs" />
+    <Compile Include="State\UpdatingFontAndColorStatus.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\DataSources\PatternCustomizer.Settings.PatternToStyleGrid.datasource" />

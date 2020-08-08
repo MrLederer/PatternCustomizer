@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 using System.Windows.Media;
-using Microsoft.VisualStudio.Text.Classification;
+using Microsoft.VisualStudio.Shell.Interop;
 
 namespace PatternCustomizer.State
 {
@@ -38,5 +33,7 @@ namespace PatternCustomizer.State
         bool TryGetIsItalic(out bool isItalicValue);
 
         bool TryGetIsBold(out bool isBoldValue);
+
+        ColorableItemInfo ConvertToItemInfo();
     }
 }

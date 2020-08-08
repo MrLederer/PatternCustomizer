@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text.RegularExpressions;
 using System.Threading;
-using System.Windows.Media;
 using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.TextManager.Interop;
 using PatternCustomizer.State;
 using Task = System.Threading.Tasks.Task;
-using System.ComponentModel;
 using PatternCustomizer.Settings;
 
 namespace PatternCustomizer
@@ -75,8 +70,9 @@ namespace PatternCustomizer
             await this.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
 
             //var commandService = await GetServiceAsync(typeof(IMenuCommandService)) as IMenuCommandService;
-            var textManager = await GetServiceAsync(typeof(SVsTextManager)) as IVsTextManager;
-
+            //Storage = await GetServiceAsync(typeof(SVsFontAndColorStorage)) as IVsFontAndColorStorage;
+            //currentState.SetColorAndFontService(await GetServiceAsync(typeof(SVsTextManager)) as IVsTextManager);
+            //currentState.SetColorAndFontService(await GetServiceAsync(typeof(SVsFontAndColorStorage)) as IVsFontAndColorStorage);
             //new CustomizeCommand(textManager, _currentState/*, commandService*/);
         }
 
