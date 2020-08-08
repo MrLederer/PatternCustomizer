@@ -89,10 +89,18 @@ namespace PatternCustomizer.Settings
             deleteRulesToPatternBtn.Name = selectedValue.ToString();
             deleteRulesToPatternBtn.Text = "Remove";
             deleteRulesToPatternBtn.UseVisualStyleBackColor = true;
-            //deleteRulesToPatternBtn += new System.EventHandler(this.removeRuleToStyle());
-            //this.AddTableEntryButton.TabIndex = 1;
-
+            deleteRulesToPatternBtn.Click += RemoveRuleToStyleEventHandlerCreator(selectedValue);
             tableLayoutPanel1.Controls.Add(deleteRulesToPatternBtn, RemoveRuleToPatternColumnIndex, tableLayoutPanel1.RowCount - 2);
+        }
+
+        private EventHandler RemoveRuleToStyleEventHandlerCreator(PatternToStyle value)
+        {
+            return new EventHandler((object sender, EventArgs e) =>
+            {
+                var rowIndex = PatternCustomizerPackage.currentState.OrderedPatternToStyleMapping.IndexOf(value) + 1;
+                PatternCustomizerPackage.currentState.OrderedPatternToStyleMapping.Remove(value);
+                RemoveArbitraryRow(tableLayoutPanel1, rowIndex);
+            });
         }
 
         private void ManagePatternsButton_Click(object sender, EventArgs e)
@@ -103,6 +111,41 @@ namespace PatternCustomizer.Settings
         private void ManageStylesButton_Click(object sender, EventArgs e)
         {
             PatternCustomizerPackage.currentState.Formats.Add(new CustomFormat("New chocolate Format", Colors.Chocolate, Colors.Chocolate));
+        }
+
+        public static void RemoveArbitraryRow(TableLayoutPanel panel, int rowIndex)
+        {
+            if (rowIndex >= panel.RowCount)
+            {
+                return;
+            }
+
+            // delete all controls of row that we want to delete
+            for (int i = 0; i < panel.ColumnCount; i++)
+            {
+                var control = panel.GetControlFromPosition(i, rowIndex);
+                panel.Controls.Remove(control);
+            }
+
+            // move up row controls that comes after row we want to remove
+            for (int i = rowIndex + 1; i < panel.RowCount; i++)
+            {
+                for (int j = 0; j < panel.ColumnCount; j++)
+                {
+                    var control = panel.GetControlFromPosition(j, i);
+                    if (control != null)
+                    {
+                        panel.SetRow(control, i - 1);
+                    }
+                }
+            }
+
+            var removeStyle = panel.RowCount - 1;
+
+            if (panel.RowStyles.Count > removeStyle)
+                panel.RowStyles.RemoveAt(removeStyle);
+
+            panel.RowCount--;
         }
     }
 }
