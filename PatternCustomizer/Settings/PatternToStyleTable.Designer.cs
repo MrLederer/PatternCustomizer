@@ -49,9 +49,9 @@ namespace PatternCustomizer.Settings
             this.tableLayoutPanel1.BackColor = System.Drawing.SystemColors.ControlLight;
             this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel1.ColumnCount = 3;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 42.5F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 42.5F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 45F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 45F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.tableLayoutPanel1.Controls.Add(this.StyleLabel, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.PatternLabel, 0, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(24, 56);
@@ -59,7 +59,7 @@ namespace PatternCustomizer.Settings
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(652, 447);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(645, 449);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // StyleLabel
@@ -124,7 +124,7 @@ namespace PatternCustomizer.Settings
             this.Controls.Add(this.AddTableEntryButton);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "PatternToStyleTable";
-            this.Size = new System.Drawing.Size(717, 526);
+            this.Size = new System.Drawing.Size(710, 528);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);

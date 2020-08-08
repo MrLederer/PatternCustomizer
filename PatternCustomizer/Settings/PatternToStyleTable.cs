@@ -19,13 +19,14 @@ namespace PatternCustomizer.Settings
     {
         const int patternColumnIndex = 0;
         const int styleColumnIndex = 1;
+        const int RemoveRuleToPatternColumnIndex = 2;
 
         public PatternToStyleTable()
         {
             InitializeComponent();
         }
 
-        internal PatternToStyleCustom patternToStyle;
+        internal PatternToStyleDialog patternToStyle;
 
         public void Initialize()
         {
@@ -81,6 +82,17 @@ namespace PatternCustomizer.Settings
             styleOptions.CreateControl();
             styleOptions.DataBindings.Add(new Binding ("SelectedIndex", selectedValue, "FormatIndex", true, DataSourceUpdateMode.OnPropertyChanged));
             styleOptions.SelectedIndex = selectedValue.FormatIndex;
+
+            //add delete button
+            var deleteRulesToPatternBtn = new Button();
+            deleteRulesToPatternBtn.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            deleteRulesToPatternBtn.Name = selectedValue.ToString();
+            deleteRulesToPatternBtn.Text = "Remove";
+            deleteRulesToPatternBtn.UseVisualStyleBackColor = true;
+            //deleteRulesToPatternBtn += new System.EventHandler(this.removeRuleToStyle());
+            //this.AddTableEntryButton.TabIndex = 1;
+
+            tableLayoutPanel1.Controls.Add(deleteRulesToPatternBtn, RemoveRuleToPatternColumnIndex, tableLayoutPanel1.RowCount - 2);
         }
 
         private void ManagePatternsButton_Click(object sender, EventArgs e)

@@ -57,13 +57,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Settings\CreateCustomStyleForm.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Settings\CreateCustomStyleForm.Designer.cs">
-      <DependentUpon>CreateCustomStyleForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Settings\PatternDialog.cs">
+    <Compile Include="Settings\PatternToStyleDialog.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Settings\PatternToStyleTable.cs">
@@ -109,9 +103,6 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Settings\CreateCustomStyleForm.resx">
-      <DependentUpon>CreateCustomStyleForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Settings\PatternToStyleTable.resx">
       <DependentUpon>PatternToStyleTable.cs</DependentUpon>

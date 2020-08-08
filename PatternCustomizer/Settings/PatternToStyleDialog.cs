@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.Shell;
 namespace PatternCustomizer.Settings
 {
     [Guid("23e56964-e8f9-4a4c-8285-09ed093971a2")]
-    internal class PatternToStyleCustom : DialogPage
+    internal class PatternToStyleDialog : DialogPage
     {
         protected override IWin32Window Window
         {
