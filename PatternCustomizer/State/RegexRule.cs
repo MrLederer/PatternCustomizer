@@ -16,6 +16,11 @@ namespace PatternCustomizer.State
 
         private Regex _regex;
 
+        public RegexRule()
+        {
+            this.RegexPattern = string.Empty;
+            this.DisplayName = string.Empty;
+        }
 
         public RegexRule(string regexPattern, string name)
         {
