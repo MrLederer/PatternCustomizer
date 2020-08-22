@@ -58,14 +58,14 @@ namespace PatternCustomizer.Settings
         {
             //increase panel rows count by one
             tableLayoutPanel1.RowCount++;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 25));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.AutoSize));
 
             // TODO: Add reorder buttons
 
             //add rule select box
             var patternOptions = new ComboBox();
             patternOptions.DropDownStyle = ComboBoxStyle.DropDownList;
-            patternOptions.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            patternOptions.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top | AnchorStyles.Bottom;
             tableLayoutPanel1.Controls.Add(patternOptions, patternColumnIndex, tableLayoutPanel1.RowCount - 2);
             patternOptions.DataSource = PatternCustomizerPackage.currentState.Rules;
             patternOptions.BindingContext = new BindingContext();
@@ -76,7 +76,7 @@ namespace PatternCustomizer.Settings
             //add style select box
             var styleOptions = new ComboBox();
             styleOptions.DropDownStyle = ComboBoxStyle.DropDownList;
-            styleOptions.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            styleOptions.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top | AnchorStyles.Bottom;
             tableLayoutPanel1.Controls.Add(styleOptions, styleColumnIndex, tableLayoutPanel1.RowCount - 2);
             styleOptions.DataSource = PatternCustomizerPackage.currentState.Formats;
             styleOptions.BindingContext = new BindingContext();
@@ -86,7 +86,7 @@ namespace PatternCustomizer.Settings
 
             //add delete button
             var deleteRulesToPatternBtn = new Button();
-            deleteRulesToPatternBtn.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            deleteRulesToPatternBtn.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top | AnchorStyles.Bottom;
             deleteRulesToPatternBtn.Name = selectedValue.ToString();
             deleteRulesToPatternBtn.Text = "Remove";
             deleteRulesToPatternBtn.UseVisualStyleBackColor = true;
@@ -116,18 +116,31 @@ namespace PatternCustomizer.Settings
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    //Get the path of specified file
                     filePath = openFileDialog.FileName;
+
+                    try
+                    {
+                        PatternCustomizerPackage.currentState.Load(filePath);
+                    }
+                    catch (Exception exception)
+                    {
+                        MessageBox.Show("An error occured: " + exception.Message);
+                    }
+                    finally 
+                    {
+                        ClearRows();
+                        Initialize();
+                    }
                 }
             }
-            try
+        }
+
+        private void ClearRows()
+        {
+            for (int i = tableLayoutPanel1.RowCount - 2; i > 0; i--)
             {
-                PatternCustomizerPackage.currentState.Load(filePath);
-            }
-            catch (Exception exception)
-            {
-                MessageBox.Show("An error occured: " + exception.Message);
-            }
+                RemoveArbitraryRow(tableLayoutPanel1, i);
+            }   
         }
 
         private void ExportButton_Click(object sender, EventArgs e)
@@ -145,16 +158,17 @@ namespace PatternCustomizer.Settings
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     filePath = saveFileDialog.FileName;
+                    try
+                    {
+                        PatternCustomizerPackage.currentState.Save(filePath);
+                    }
+                    catch (Exception exception)
+                    {
+                        MessageBox.Show("An error occured: " + exception.Message);
+                    }
                 }
             }
-            try
-            {
-                PatternCustomizerPackage.currentState.Save(filePath);
-            }
-            catch (Exception exception)
-            {
-                MessageBox.Show("An error occured: " + exception.Message);
-            }
+            
         }
 
         public static void RemoveArbitraryRow(TableLayoutPanel panel, int rowIndex)

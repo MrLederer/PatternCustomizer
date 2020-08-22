@@ -76,14 +76,29 @@ namespace PatternCustomizer.State
             if (File.Exists(filepath))
             {
                 var settingJson = File.ReadAllText(filepath);
-                var (mapping, rules, formats) = settingJson.FromJson<(IEnumerable<(int, int)>, IEnumerable<IRule>, IEnumerable<IFormat>)>();
-                this.Rules = rules.ToBindingList();
-                this.Formats = formats.ToBindingList();
-                this.OrderedPatternToStyleMapping = mapping.Select(_ => new PatternToStyle(_.Item1, _.Item2)).ToBindingList();
+                var (mappings, rules, formats) = settingJson.FromJson<(IEnumerable<(int, int)>, IEnumerable<IRule>, IEnumerable<IFormat>)>();
+
+                this.OrderedPatternToStyleMapping.Clear();
+
+                this.Rules.Clear();
+                foreach (var rule in rules)
+                {
+                    this.Rules.Add(rule);
+                }
+
+                this.Formats.Clear();
+                foreach (var format in formats)
+                {
+                    this.Formats.Add(format);
+                }
                 UpdateFormatDeclaredName();
+                
+                foreach (var mapping in mappings)
+                {
+                    this.OrderedPatternToStyleMapping.Add(new PatternToStyle(mapping.Item1, mapping.Item2));
+                }
                 UpdateInternalState();
-                this.OrderedPatternToStyleMapping.ListChanged += PatternToStyleListChanged;
-                this.Formats.ListChanged += StyleListChanged;
+
                 m_fontsAndColorStatus = UpdateFormatsAsync();
             }
             return this;

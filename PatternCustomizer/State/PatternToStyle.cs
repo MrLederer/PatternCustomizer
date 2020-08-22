@@ -47,7 +47,6 @@ namespace PatternCustomizer.State
         {
             this._ruleIndex = ruleIndex;
             this._formatIndex = formatIndex;
-
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
