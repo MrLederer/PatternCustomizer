@@ -41,7 +41,7 @@ namespace PatternCustomizer
         internal static IState currentState {
             get
             {
-                _currentState = _currentState ?? new CustomState().Load();
+                _currentState = _currentState ?? new CustomState().Load(StateUtils.GetDefaultFilePath());
                 return _currentState;
                 // TODO: Migrate to use Settings store. for more information https://docs.microsoft.com/en-us/visualstudio/extensibility/using-the-settings-store?view=vs-2019.
                 //to init some rules

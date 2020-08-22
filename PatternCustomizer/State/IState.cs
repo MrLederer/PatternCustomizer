@@ -25,9 +25,9 @@ namespace PatternCustomizer.State
 
         IEnumerable<FormatName> GetEnabledDeclaredFormatNames();
 
-        IState Save();
+        IState Save(string filepath);
 
-        IState Load();
+        IState Load(string filepath);
     }
 
 }

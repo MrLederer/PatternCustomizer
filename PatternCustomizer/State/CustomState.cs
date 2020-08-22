@@ -26,12 +26,10 @@ namespace PatternCustomizer.State
 
         private Task<UpdatingFontAndColorStatus> m_fontsAndColorStatus;
         private IDictionary<FormatName, (IFormat, IEnumerable<IRule>)> m_state;
-        private string m_settingFile;
 
         public CustomState(IEnumerable<(IRule, IFormat)> rulesAndFormats = null)
         {
             var safeRulesAndFormats = rulesAndFormats.NullToEmpty();
-            this.m_settingFile = StateUtils.GetDefaultFilePath();
             this.Rules = safeRulesAndFormats.Select(_ => _.Item1)
                 .Distinct()
                 .ToBindingList();
@@ -73,11 +71,11 @@ namespace PatternCustomizer.State
             }
         }
 
-        public IState Load()
+        public IState Load(string filepath)
         {
-            if (File.Exists(this.m_settingFile))
+            if (File.Exists(filepath))
             {
-                var settingJson = File.ReadAllText(this.m_settingFile);
+                var settingJson = File.ReadAllText(filepath);
                 var (mapping, rules, formats) = settingJson.FromJson<(IEnumerable<(int, int)>, IEnumerable<IRule>, IEnumerable<IFormat>)>();
                 this.Rules = rules.ToBindingList();
                 this.Formats = formats.ToBindingList();
@@ -91,15 +89,15 @@ namespace PatternCustomizer.State
             return this;
         }
 
-        public IState Save()
+        public IState Save(string filepath)
         {
             var mappingCopy = this.OrderedPatternToStyleMapping.Select(_ => (_.RuleIndex, _.FormatIndex));
             var formatsCopy = this.Formats.Select(_ => _.Clone());
             var rulesCopy = this.Rules.Select(_ => _.Clone());
             var serializedObj = (mappingCopy, rulesCopy, formatsCopy).ToJson();
-            var directory = Path.GetDirectoryName(this.m_settingFile);
+            var directory = Path.GetDirectoryName(filepath);
             Directory.CreateDirectory(directory);
-            File.WriteAllText(this.m_settingFile, serializedObj);
+            File.WriteAllText(filepath, serializedObj);
             return this;
         }
 

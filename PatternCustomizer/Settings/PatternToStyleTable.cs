@@ -12,6 +12,7 @@ using System.Windows.Media;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using System.Globalization;
+using System.IO;
 
 namespace PatternCustomizer.Settings
 {
@@ -103,14 +104,57 @@ namespace PatternCustomizer.Settings
             });
         }
 
-        private void ManagePatternsButton_Click(object sender, EventArgs e)
+        private void ImportButton_Click(object sender, EventArgs e)
         {
-            PatternCustomizerPackage.currentState.Rules.Add(new RegexRule(@"lala", "recognize lala"));
+            var filePath = string.Empty;
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.InitialDirectory = "c:\\";
+                openFileDialog.Filter = "json files (*.json)|*.json|All files (*.*)|*.*";
+                openFileDialog.FilterIndex = 2;
+                openFileDialog.RestoreDirectory = true;
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    //Get the path of specified file
+                    filePath = openFileDialog.FileName;
+                }
+            }
+            try
+            {
+                PatternCustomizerPackage.currentState.Load(filePath);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show("An error occured: " + exception.Message);
+            }
         }
 
-        private void ManageStylesButton_Click(object sender, EventArgs e)
+        private void ExportButton_Click(object sender, EventArgs e)
         {
-            PatternCustomizerPackage.currentState.Formats.Add(new CustomFormat("New chocolate Format", Colors.Chocolate, Colors.Chocolate));
+            var filePath = string.Empty;
+            Stream stream;
+            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+            {
+                saveFileDialog.InitialDirectory = "c:\\";
+                saveFileDialog.Filter = "json files (*.json)|*.json|All files (*.*)|*.*";
+                saveFileDialog.FilterIndex = 2;
+                saveFileDialog.RestoreDirectory = true;
+                saveFileDialog.FileName = "setting.json";
+
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    filePath = saveFileDialog.FileName;
+                }
+            }
+            try
+            {
+                PatternCustomizerPackage.currentState.Save(filePath);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show("An error occured: " + exception.Message);
+            }
         }
 
         public static void RemoveArbitraryRow(TableLayoutPanel panel, int rowIndex)

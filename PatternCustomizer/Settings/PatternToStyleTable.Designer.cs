@@ -34,7 +34,7 @@ namespace PatternCustomizer.Settings
             this.StyleLabel = new System.Windows.Forms.Label();
             this.PatternLabel = new System.Windows.Forms.Label();
             this.AddTableEntryButton = new System.Windows.Forms.Button();
-            this.ManageStylesButton = new System.Windows.Forms.Button();
+            this.ExportButton = new System.Windows.Forms.Button();
             this.ManagePatternsButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -66,9 +66,9 @@ namespace PatternCustomizer.Settings
             // 
             this.StyleLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.StyleLabel.AutoSize = true;
-            this.StyleLabel.Location = new System.Drawing.Point(280, 7);
+            this.StyleLabel.Location = new System.Drawing.Point(293, 7);
             this.StyleLabel.Name = "StyleLabel";
-            this.StyleLabel.Size = new System.Drawing.Size(269, 13);
+            this.StyleLabel.Size = new System.Drawing.Size(282, 13);
             this.StyleLabel.TabIndex = 3;
             this.StyleLabel.Text = "Style";
             this.StyleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -79,7 +79,7 @@ namespace PatternCustomizer.Settings
             this.PatternLabel.AutoSize = true;
             this.PatternLabel.Location = new System.Drawing.Point(4, 7);
             this.PatternLabel.Name = "PatternLabel";
-            this.PatternLabel.Size = new System.Drawing.Size(269, 13);
+            this.PatternLabel.Size = new System.Drawing.Size(282, 13);
             this.PatternLabel.TabIndex = 1;
             this.PatternLabel.Text = "Pattern";
             this.PatternLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -94,25 +94,25 @@ namespace PatternCustomizer.Settings
             this.AddTableEntryButton.UseVisualStyleBackColor = true;
             this.AddTableEntryButton.Click += new System.EventHandler(this.AddTableEntryButton_Click);
             // 
-            // ManageStylesButton
+            // ExportButton
             // 
-            this.ManageStylesButton.Location = new System.Drawing.Point(289, 16);
-            this.ManageStylesButton.Name = "ManageStylesButton";
-            this.ManageStylesButton.Size = new System.Drawing.Size(109, 34);
-            this.ManageStylesButton.TabIndex = 2;
-            this.ManageStylesButton.Text = "Manage styles";
-            this.ManageStylesButton.UseVisualStyleBackColor = true;
-            this.ManageStylesButton.Click += new System.EventHandler(this.ManageStylesButton_Click);
+            this.ExportButton.Location = new System.Drawing.Point(289, 16);
+            this.ExportButton.Name = "ExportButton";
+            this.ExportButton.Size = new System.Drawing.Size(109, 34);
+            this.ExportButton.TabIndex = 2;
+            this.ExportButton.Text = "Export setting";
+            this.ExportButton.UseVisualStyleBackColor = true;
+            this.ExportButton.Click += new System.EventHandler(this.ExportButton_Click);
             // 
             // ManagePatternsButton
             // 
             this.ManagePatternsButton.Location = new System.Drawing.Point(155, 16);
-            this.ManagePatternsButton.Name = "ManagePatternsButton";
+            this.ManagePatternsButton.Name = "ImportButton";
             this.ManagePatternsButton.Size = new System.Drawing.Size(109, 34);
             this.ManagePatternsButton.TabIndex = 3;
-            this.ManagePatternsButton.Text = "Manage patterns";
+            this.ManagePatternsButton.Text = "Import settings";
             this.ManagePatternsButton.UseVisualStyleBackColor = true;
-            this.ManagePatternsButton.Click += new System.EventHandler(this.ManagePatternsButton_Click);
+            this.ManagePatternsButton.Click += new System.EventHandler(this.ImportButton_Click);
             // 
             // PatternToStyleTable
             // 
@@ -120,7 +120,7 @@ namespace PatternCustomizer.Settings
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.Controls.Add(this.ManagePatternsButton);
-            this.Controls.Add(this.ManageStylesButton);
+            this.Controls.Add(this.ExportButton);
             this.Controls.Add(this.AddTableEntryButton);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "PatternToStyleTable";
@@ -137,7 +137,7 @@ namespace PatternCustomizer.Settings
         private Label PatternLabel;
         private Label StyleLabel;
         private Button AddTableEntryButton;
-        private Button ManageStylesButton;
+        private Button ExportButton;
         private Button ManagePatternsButton;
     }
 }
