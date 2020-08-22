@@ -57,8 +57,17 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Settings\StylesDialog.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Settings\PatternsDialog.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Settings\StylesTable.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Settings\StylesTable.Designer.cs">
+      <DependentUpon>StylesTable.cs</DependentUpon>
     </Compile>
     <Compile Include="Settings\PatternToStyleDialog.cs">
       <SubType>Component</SubType>
@@ -112,6 +121,12 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Settings\PatternsDialog.resx">
+      <DependentUpon>PatternsDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Settings\StylesTable.resx">
+      <DependentUpon>StylesTable.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Settings\PatternsTable.resx">
       <DependentUpon>PatternsTable.cs</DependentUpon>

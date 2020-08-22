@@ -21,6 +21,9 @@ namespace PatternCustomizer.State
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public CustomFormat() : this("") 
+        { }
+
         public CustomFormat(string name, Color? foregroundColor = null, Color? backgroundColor = null, double? opacity = null, bool? isItalic = null, bool? isBold = null, bool? isStrikethrough = null)
         {
             this.DisplayName = name ?? "";
@@ -168,7 +171,7 @@ namespace PatternCustomizer.State
             return Clone();
         }
 
-        public ColorableItemInfo ConvertToItemInfo()
+        public ColorableItemInfo ConvertToItemInfo(uint defaultTransparentColor)
         {
             var result = new ColorableItemInfo();
             if (this.TryGetForegroundColor(out var foregroundColor))
@@ -178,7 +181,8 @@ namespace PatternCustomizer.State
             }
             else
             {
-                result.bForegroundValid = 0;
+                result.crForeground = defaultTransparentColor;
+                result.bForegroundValid = 1;
             }
             
             if (this.TryGetBackgroundColor(out var backgroundColor))
@@ -188,7 +192,8 @@ namespace PatternCustomizer.State
             }
             else
             {
-                result.bBackgroundValid = 0;
+                result.crBackground = defaultTransparentColor;
+                result.bBackgroundValid = 1;
             }
 
             if (this.TryGetIsStrikethrough(out var isStrikethrough))

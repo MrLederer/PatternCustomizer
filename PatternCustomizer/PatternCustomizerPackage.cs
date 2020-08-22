@@ -29,6 +29,7 @@ namespace PatternCustomizer
     [Guid(PatternCustomizerPackage.PackageGuidString)]
     [ProvideOptionPage(typeof(PatternToStyleDialog), "Pattern Customizer", "Pattern to style table", 0, 0, true)]
     [ProvideOptionPage(typeof(PatternsDialog), "Pattern Customizer", "Patterns table", 0, 0, true)]
+    [ProvideOptionPage(typeof(StylesDialog), "Pattern Customizer", "Styles table", 0, 0, true)]
     public sealed class PatternCustomizerPackage : AsyncPackage
     {
         /// <summary>

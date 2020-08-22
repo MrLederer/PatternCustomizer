@@ -158,9 +158,11 @@ namespace PatternCustomizer.State
                 ErrorHandler.ThrowOnFailure(hr);
                 try
                 {
+                    hr = ((IVsFontAndColorUtilities)fontAndColorStorageService).EncodeAutomaticColor(out uint defaultTransparentColor);
+                    ErrorHandler.ThrowOnFailure(hr);
                     foreach (var format in Formats)
                     {
-                        hr = fontAndColorStorageService.SetItem(format.DeclaredFormatName, new[] { format.ConvertToItemInfo() });
+                        hr = fontAndColorStorageService.SetItem(format.DeclaredFormatName, new[] { format.ConvertToItemInfo(defaultTransparentColor) });
                         ErrorHandler.ThrowOnFailure(hr);
                     }
                 }

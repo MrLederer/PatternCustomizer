@@ -34,6 +34,6 @@ namespace PatternCustomizer.State
 
         bool TryGetIsBold(out bool isBoldValue);
 
-        ColorableItemInfo ConvertToItemInfo();
+        ColorableItemInfo ConvertToItemInfo(uint defaultTransparentColor);
     }
 }
