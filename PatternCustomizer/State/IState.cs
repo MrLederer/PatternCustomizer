@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
-using Microsoft.VisualStudio.Shell.Interop;
 using FormatName = System.String;
 
 namespace PatternCustomizer.State

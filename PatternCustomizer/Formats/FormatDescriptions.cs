@@ -59,7 +59,7 @@ namespace PatternCustomizer.Formats
     [Name(Constants.Format0)]
     [UserVisible(true)]
     [Order(After = ClassificationTypeNames.Identifier)]
-    public class Format0 : CustomizableClassificationFormatDefinition
+    internal sealed class Format0 : CustomizableClassificationFormatDefinition
     {
         public Format0() : base(currentState.GetCustomFormatOrDefault(Constants.Format0))
         {

@@ -12,6 +12,8 @@ namespace PatternCustomizer.State
 {
     public static class StateUtils
     {
+        public static readonly string DefaultFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), nameof(PatternCustomizer), "settings.json");
+
         private static JsonSerializerSettings jsonSetting = new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.Objects,
@@ -25,14 +27,6 @@ namespace PatternCustomizer.State
         public static string ToJson<T>(this T obj)
         {
             return JsonConvert.SerializeObject(obj, Formatting.Indented, jsonSetting);
-        }
-
-        public static string GetDefaultFilePath()
-        {
-            return Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-            nameof(PatternCustomizer), "setting.json"
-          );
         }
 
         /// <summary>

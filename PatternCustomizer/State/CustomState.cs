@@ -41,7 +41,7 @@ namespace PatternCustomizer.State
             UpdateFormatDeclaredName();
             UpdateInternalState();
             OrderedPatternToStyleMapping.ListChanged += PatternToStyleListChanged;
-            Formats.ListChanged += PatternToStyleListChanged;
+            Formats.ListChanged += StyleListChanged;
             m_fontsAndColorStatus = UpdateFormatsAsync();
         }
 
@@ -99,6 +99,10 @@ namespace PatternCustomizer.State
                 }
                 UpdateInternalState();
 
+                if (filepath != StateUtils.DefaultFilePath)
+                {
+                    Save(StateUtils.DefaultFilePath);
+                }
                 m_fontsAndColorStatus = UpdateFormatsAsync();
             }
             return this;
@@ -119,6 +123,7 @@ namespace PatternCustomizer.State
         private void PatternToStyleListChanged(object sender, ListChangedEventArgs e)
         {
             UpdateInternalState();
+            Save(StateUtils.DefaultFilePath);
         }
 
         private void StyleListChanged(object sender, ListChangedEventArgs e)
