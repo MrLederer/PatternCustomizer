@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text.RegularExpressions;
 using System.Threading;
-using System.Windows.Media;
 using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.TextManager.Interop;
 using PatternCustomizer.State;
 using Task = System.Threading.Tasks.Task;
-using System.ComponentModel;
 using PatternCustomizer.Settings;
 
 namespace PatternCustomizer
@@ -32,8 +27,9 @@ namespace PatternCustomizer
     /// </remarks>
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
     [Guid(PatternCustomizerPackage.PackageGuidString)]
-    [ProvideOptionPage(typeof(PatternToStyleGrid), "Pattern Customizer", "Pattern to style grid", 0, 0, true)]
-    [ProvideOptionPage(typeof(PatternToStyleCustom), "Pattern Customizer", "Pattern to style table", 0, 0, true)]
+    [ProvideOptionPage(typeof(PatternToStyleDialog), "Pattern Customizer", "Pattern to style table", 0, 0, true)]
+    [ProvideOptionPage(typeof(PatternsDialog), "Pattern Customizer", "Patterns table", 0, 0, true)]
+    [ProvideOptionPage(typeof(StylesDialog), "Pattern Customizer", "Styles table", 0, 0, true)]
     public sealed class PatternCustomizerPackage : AsyncPackage
     {
         /// <summary>
@@ -42,27 +38,20 @@ namespace PatternCustomizer
         public const string PackageGuidString = "0a35895d-957f-4362-9bf9-cae2307004e6";
         private static IState _currentState;
 
-        // TODO: remove the block below
-        public int OptionInteger
-        {
-            get
-            {
-                PatternToStyleGrid page = (PatternToStyleGrid)GetDialogPage(typeof(PatternToStyleGrid));
-                return page.OptionInteger;
-            }
-        }
-
         internal static IState currentState {
             get
             {
-                return _currentState ?? (_currentState = new CustomState().Load());
-                // TODO: Migrate to use Settings store. for more information https://docs.microsoft.com/en-us/visualstudio/extensibility/using-the-settings-store?view=vs-2019.
-                //  to init some rules
-                //    return _currentState ?? (_currentState = new CustomState(new List<(IRule, IFormat)>()
+                _currentState = _currentState ?? new CustomState().Load(StateUtils.DefaultFilePath);
+                return _currentState;
+                //to init some rules
+                //_currentState = _currentState ?? new CustomState(new List<(IRule, IFormat)>()
                 //{
-                //    (new RegexRule(new Regex("^.*Logger.+$")), new CustomFormat(isItalic: true, color: Colors.Blue, opacity: 0.3)),
-                //    (new RegexRule(new Regex("Logger")), new CustomFormat(isBold: true, color: Colors.Red, opacity: 0.5))
-                //})).Save().Load();
+                //    (new RegexRule("^.*Logger.+$", "Logger line"), new CustomFormat(name: "Blue with low opacity", foregroundColor: Colors.Blue, opacity: 0.5)),
+                //    (new RegexRule("^.*Trace.+$", "Trace line"), new CustomFormat(name: "Blue with low opacity", foregroundColor: Colors.Blue, opacity: 0.5)),
+                //    (new RegexRule("Logger", "Logger token"), new CustomFormat(name: "Red with medium opacity", foregroundColor: Colors.Red, opacity: 0.7)),
+                //    (new RegexRule("Trace", "Trace Token"), new CustomFormat(name: "Red with medium opacity", foregroundColor: Colors.Red, opacity: 0.7))
+                //}).Save().Load();
+                //return _currentState;
             }
         }
 
@@ -82,8 +71,9 @@ namespace PatternCustomizer
             await this.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
 
             //var commandService = await GetServiceAsync(typeof(IMenuCommandService)) as IMenuCommandService;
-            var textManager = await GetServiceAsync(typeof(SVsTextManager)) as IVsTextManager;
-
+            //Storage = await GetServiceAsync(typeof(SVsFontAndColorStorage)) as IVsFontAndColorStorage;
+            //currentState.SetColorAndFontService(await GetServiceAsync(typeof(SVsTextManager)) as IVsTextManager);
+            //currentState.SetColorAndFontService(await GetServiceAsync(typeof(SVsFontAndColorStorage)) as IVsFontAndColorStorage);
             //new CustomizeCommand(textManager, _currentState/*, commandService*/);
         }
 

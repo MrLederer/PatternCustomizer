@@ -1,15 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using FormatName = System.String;
 
 namespace PatternCustomizer.State
 {
-    interface IState
+    interface IState : INotifyPropertyChanged
     {
+        BindingList<PatternToStyle> OrderedPatternToStyleMapping { get; set; }
+
+        BindingList<IRule> Rules { get; set; }
+
+        BindingList<IFormat> Formats { get; set; }
+
         /// <summary>
         /// Gets the custom setting for a format.
         /// Used to configure the format
@@ -20,11 +22,11 @@ namespace PatternCustomizer.State
 
         IEnumerable<IRule> GetRules(FormatName formatName);
 
-        IEnumerable<FormatName> GetEnabledFormats();
+        IEnumerable<FormatName> GetEnabledDeclaredFormatNames();
 
-        IState Save();
+        IState Save(string filepath);
 
-        IState Load();
+        IState Load(string filepath);
     }
 
 }

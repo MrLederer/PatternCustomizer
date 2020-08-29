@@ -1,4 +1,8 @@
-﻿using System.Windows.Media;
+﻿using System;
+using System.ComponentModel;
+using System.Windows.Media;
+using Microsoft.VisualStudio.Shell.Interop;
+using Microsoft.VisualStudio.TextManager.Interop;
 using Newtonsoft.Json;
 
 namespace PatternCustomizer.State
@@ -6,84 +10,204 @@ namespace PatternCustomizer.State
     [JsonObject(MemberSerialization.Fields)]
     class CustomFormat : IFormat
     {
-        private string _name;
-        private Color? _color;
-        private double? _opacity;
-        private bool? _isItalic;
-        private bool? _isBold;
+        public string DisplayName { get; set; }
+        public string DeclaredFormatName { get; set; }
+        public Color? ForegroundColor { get; set; }
+        public Color? BackgroundColor { get; set; }
+        public double? Opacity { get; set; }
+        public bool? IsItalic { get; set; }
+        public bool? IsStrikethrough { get; set; }
+        public bool? IsBold { get; set; }
 
-        public CustomFormat(Color? color = null, double? opacity = null, bool? isItalic = null, bool? isBold = null, string name = null)
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public CustomFormat() : this("") 
+        { }
+
+        public CustomFormat(string name, Color? foregroundColor = null, Color? backgroundColor = null, double? opacity = null, bool? isItalic = null, bool? isBold = null, bool? isStrikethrough = null)
         {
-            this._name = name;
-            this._color = color;
-            this._opacity = opacity;
-            this._isItalic = isItalic;
-            this._isBold = isBold;
+            this.DisplayName = name ?? "";
+            this.ForegroundColor = foregroundColor;
+            this.BackgroundColor = backgroundColor;
+            this.Opacity = opacity;
+            this.IsItalic = isItalic;
+            this.IsBold = isBold;
         }
 
-        public bool TryGetColor(out Color colorValue)
+        public bool TryGetForegroundColor(out Color colorValue)
         {
-            if (_color.HasValue)
+            if (ForegroundColor.HasValue)
             {
-                colorValue = _color.Value;
+                colorValue = ForegroundColor.Value;
+                return true;
             }
             else
             {
                 colorValue = default;
+                return false;
             }
-            return _color.HasValue;
+        }
+
+
+        public bool TryGetBackgroundColor(out Color colorValue)
+        {
+            if (BackgroundColor.HasValue)
+            {
+                colorValue = BackgroundColor.Value;
+                return true;
+            }
+            else
+            {
+                colorValue = default;
+                return false;
+            }
         }
 
         public bool TryGetOpacity(out double opacityValue)
         {
-            if (_opacity.HasValue)
+            if (Opacity.HasValue)
             {
-                opacityValue = _opacity.Value;
+                opacityValue = Opacity.Value;
+                return true;
             }
             else
             {
                 opacityValue = default;
+                return false;
             }
-            return _opacity.HasValue;
         }
 
         public bool TryGetIsItalic(out bool isItalicValue)
         {
-            if (_isItalic.HasValue)
+            if (IsItalic.HasValue)
             {
-                isItalicValue = _isItalic.Value;
+                isItalicValue = IsItalic.Value;
+                return true;
             }
             else
             {
                 isItalicValue = default;
+                return false;
             }
-            return _opacity.HasValue;
+        }
+
+        public bool TryGetIsStrikethrough(out bool isStrikethrough)
+        {
+            if (IsStrikethrough.HasValue)
+            {
+                isStrikethrough = IsStrikethrough.Value;
+                return true;
+            }
+            else
+            {
+                isStrikethrough = default;
+                return false;
+            }
         }
 
         public bool TryGetIsBold(out bool isBoldValue)
         {
-            if (_isBold.HasValue)
+            if (IsBold.HasValue)
             {
-                isBoldValue = _isBold.Value;
+                isBoldValue = IsBold.Value;
+                return true;
             }
             else
             {
                 isBoldValue = default;
+                return false;
             }
-            return _isBold.HasValue;
         }
 
         public bool TryGetDisplayName(out string name)
         {
-            if (_name != null)
+            if (DisplayName != null)
             {
-                name = _name;
+                name = DisplayName;
+                return true;
             }
             else
             {
                 name = default;
+                return false;
             }
-            return _name != null;
+        }
+
+        public override bool Equals(object obj)
+        {
+            var other = obj as IFormat;
+            return other != null &&
+                other.DisplayName == this.DisplayName &&
+                other.ForegroundColor == this.ForegroundColor &&
+                other.BackgroundColor == this.BackgroundColor &&
+                other.Opacity == this.Opacity &&
+                other.IsItalic == this.IsItalic &&
+                other.IsBold == this.IsBold;
+        }
+
+        public override int GetHashCode()
+        {
+            var rollingHash = this.DisplayName != null ? this.DisplayName.GetHashCode() : 0;
+            rollingHash ^= this.ForegroundColor != null ? this.ForegroundColor.GetHashCode() : 0;
+            rollingHash ^= this.BackgroundColor != null ? this.BackgroundColor.GetHashCode() : 0;
+            rollingHash ^= this.Opacity != null ? this.Opacity.GetHashCode() : 0;
+            rollingHash ^= this.IsItalic != null ? this.IsItalic.GetHashCode() : 0;
+            rollingHash ^= this.IsBold != null ? this.IsBold.GetHashCode() : 0;
+            return rollingHash;
+        }
+
+        public override string ToString()
+        {
+            return DisplayName;
+        }
+
+        public IFormat Clone()
+        {
+            return new CustomFormat(this.DisplayName, this.ForegroundColor, this.BackgroundColor, this.Opacity, this.IsItalic, this.IsBold, this.IsStrikethrough);
+        }
+
+        object ICloneable.Clone()
+        {
+            return Clone();
+        }
+
+        public ColorableItemInfo ConvertToItemInfo(uint defaultTransparentColor)
+        {
+            var result = new ColorableItemInfo();
+            if (this.TryGetForegroundColor(out var foregroundColor))
+            {
+                result.crForeground  = (uint)foregroundColor.ToRGB();
+                result.bForegroundValid = 1;
+            }
+            else
+            {
+                result.crForeground = defaultTransparentColor;
+                result.bForegroundValid = 1;
+            }
+            
+            if (this.TryGetBackgroundColor(out var backgroundColor))
+            {
+                result.crBackground = (uint)backgroundColor.ToRGB();
+                result.bBackgroundValid = 1;
+            }
+            else
+            {
+                result.crBackground = defaultTransparentColor;
+                result.bBackgroundValid = 1;
+            }
+
+            if (this.TryGetIsStrikethrough(out var isStrikethrough))
+            {
+                result.dwFontFlags |= (uint)FONTFLAGS.FF_STRIKETHROUGH;
+                result.bFontFlagsValid = 1;
+            }
+            if (this.TryGetIsBold(out var isBold))
+            {
+                result.dwFontFlags |= (uint)FONTFLAGS.FF_BOLD;
+                result.bFontFlagsValid = 1;
+            }
+
+            return result;
         }
     }
 }

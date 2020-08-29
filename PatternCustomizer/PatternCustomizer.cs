@@ -9,6 +9,7 @@ using Microsoft.VisualStudio.Text.Tagging;
 using Microsoft.VisualStudio.Utilities;
 using PatternCustomizer.State;
 using Microsoft.VisualStudio.Text.Classification;
+using System.ComponentModel;
 
 namespace PatternCustomizer
 {
@@ -25,26 +26,41 @@ namespace PatternCustomizer
 
         public ITagger<T> CreateTagger<T>(ITextBuffer buffer) where T : ITag
         {
-            return (ITagger<T>)new PatternCustomizer(buffer, ClassificationRegistry, PatternCustomizerPackage.currentState);
+            return (ITagger<T>)new PatternCustomizer(buffer, ClassificationRegistry);
         }
     }
+
     class PatternCustomizer : ITagger<IClassificationTag>
     {
         private readonly ITextBuffer _buffer;
-        private readonly IDictionary<IRule, IClassificationType> _ruleToFormatType;
+        private readonly IClassificationTypeRegistryService _registery;
+        private IDictionary<IRule, IClassificationType> _ruleToFormatType;
 #pragma warning disable CS0067
         public event EventHandler<SnapshotSpanEventArgs> TagsChanged;
 #pragma warning restore CS0067
 
-        internal PatternCustomizer(ITextBuffer buffer, IClassificationTypeRegistryService registry, IState state)
+        internal PatternCustomizer(ITextBuffer buffer, IClassificationTypeRegistryService registry)
         {
+            var state = PatternCustomizerPackage.currentState;
             _buffer = buffer;
-            _ruleToFormatType = state.GetEnabledFormats()
-                .Select(formatName => (name: formatName, type: registry.GetClassificationType(formatName)))
-                .SelectMany(format => state
-                    .GetRules(format.name)
-                    .Select(rule => (rule, formatType: format.type)))
-                .ToDictionary(_ => _.rule, _ => _.formatType);
+            _registery = registry;
+            _ruleToFormatType = UpdatedRulesToPattern(_registery, state);
+            state.OrderedPatternToStyleMapping.ListChanged += this.UpdateRulesToPattern;
+        }
+
+        private void UpdateRulesToPattern(object sender, ListChangedEventArgs e)
+        {
+            _ruleToFormatType = UpdatedRulesToPattern(_registery, PatternCustomizerPackage.currentState);
+        }
+
+        private static IDictionary<IRule, IClassificationType> UpdatedRulesToPattern(IClassificationTypeRegistryService registry, IState state)
+        {
+            return state.GetEnabledDeclaredFormatNames()
+                            .Select(formatName => (name: formatName, type: registry.GetClassificationType(formatName)))
+                            .SelectMany(format => state
+                                .GetRules(format.name)
+                                .Select(rule => (rule, formatType: format.type)))
+                            .ToDictionaryWithKeyOverwritting(_ => _.rule, _ => _.formatType);
         }
 
         public IEnumerable<ITagSpan<IClassificationTag>> GetTags(NormalizedSnapshotSpanCollection spans)

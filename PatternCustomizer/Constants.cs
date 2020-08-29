@@ -8,21 +8,27 @@ namespace PatternCustomizer
 {
     public static class Constants
     {
-        public const string Format0 = nameof(Format0);
-        public const string Format1 = nameof(Format1);
-        public const string Format2 = nameof(Format2);
-        // TODO: make 10 formats available
-        //public const string Format3 = nameof(Format3);
-        //public const string Format4 = nameof(Format4);
-        //public const string Format5 = nameof(Format5);
-        //public const string Format6 = nameof(Format6);
-        //public const string Format7 = nameof(Format7);
-        //public const string Format8 = nameof(Format8);
-        //public const string Format9 = nameof(Format9);
-        public static string[] AllFormats = new string[] {
+        public const string Format0 = nameof(PatternCustomizer) + " " + nameof(Format0);
+        public const string Format1 = nameof(PatternCustomizer) + " " + nameof(Format1);
+        public const string Format2 = nameof(PatternCustomizer) + " " + nameof(Format2);
+        public const string Format3 = nameof(PatternCustomizer) + " " + nameof(Format3);
+        public const string Format4 = nameof(PatternCustomizer) + " " + nameof(Format4);
+        public const string Format5 = nameof(PatternCustomizer) + " " + nameof(Format5);
+        public const string Format6 = nameof(PatternCustomizer) + " " + nameof(Format6);
+        public const string Format7 = nameof(PatternCustomizer) + " " + nameof(Format7);
+        public const string Format8 = nameof(PatternCustomizer) + " " + nameof(Format8);
+        public const string Format9 = nameof(PatternCustomizer) + " " + nameof(Format9);
+        public static string[] AllDeclaredFormatNames = new string[] {
             Format0,
             Format1,
-            Format2
+            Format2,
+            Format3,
+            Format4,
+            Format5,
+            Format6,
+            Format7,
+            Format8,
+            Format9,
         };
     }
 }
